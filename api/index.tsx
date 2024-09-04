@@ -1,7 +1,7 @@
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
-// import { neynar } from 'frog/hubs'
+import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel'
 
 // Uncomment to use Edge Runtime.
@@ -12,59 +12,52 @@ import { handle } from 'frog/vercel'
 export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  // Supply a Hub to enable frame verification.
-  // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
-  title: 'Frog Frame',
+  hub: neynar({ apiKey: 'NEYNAR_FROG_FM' }),
+  title: 'Delegates Frame',
+/*   verify: 'silent', */
+  imageOptions: {
+    fonts: [
+      {
+        name: 'Koulen',
+        weight: 400,
+        source: 'google',
+      }
+    ]
+  }
 })
 
 app.frame('/', (c) => {
-  const { buttonValue, inputText, status } = c
-  const fruit = inputText || buttonValue
   return c.res({
-    image: (
-      <div
-        style={{
-          alignItems: 'center',
-          background:
-            status === 'response'
-              ? 'linear-gradient(to right, #432889, #17101F)'
-              : 'black',
-          backgroundSize: '100% 100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
-          height: '100%',
-          justifyContent: 'center',
-          textAlign: 'center',
-          width: '100%',
-        }}
-      >
-        <div
-          style={{
-            color: 'white',
-            fontSize: 60,
-            fontStyle: 'normal',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          {status === 'response'
-            ? `Nice choice.${fruit ? ` ${fruit.toUpperCase()}!!` : ''}`
-            : 'Welcome!'}
-        </div>
-      </div>
-    ),
+    image: `/Frame_1_start.png`,
+    imageAspectRatio: '1.91:1',
     intents: [
-      <TextInput placeholder="Enter custom fruit..." />,
-      <Button value="apples">Apples</Button>,
-      <Button value="oranges">Oranges</Button>,
-      <Button value="bananas">Bananas</Button>,
-      status === 'response' && <Button.Reset>Reset</Button.Reset>,
+      <TextInput placeholder="Enter fid..." />,
+      <Button action="/delegatesStats">View Stats</Button>
     ],
   })
+})
+
+app.frame('/delegatesStats', async (c) => {
+  const {  verified } = c;
+
+  if (!verified){
+    return c.res({
+      image: `/Frame_4_not_verified.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [
+          <Button.Reset>Try again</Button.Reset>,
+      ],
+  })
+  } 
+
+  return c.res({
+    image: `/Frame_6_error.png`,
+    imageAspectRatio: '1.91:1',
+    intents: [
+      <Button.Reset>Try again</Button.Reset>,
+    ],
+  })
+
 })
 
 // @ts-ignore
