@@ -43,8 +43,9 @@ app.frame('/', (c) => {
 })
 
 app.frame('/delegatesStats', async (c) => {
-  const {  frameData } = c;
- const { fid } = frameData || {}   
+  /* const {  frameData } = c;
+ const { fid } = frameData || {}  */  
+ const fid = 376182;
 
 
  if (fid === undefined){
@@ -229,7 +230,7 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 app.frame('/exploreDelegates', async (c) => {
   /* const {  frameData } = c;
   const { fid } = frameData || {}   */ 
-  const fid = 192336;
+  const fid = 376182;
 
 
   if (typeof fid !== 'number' || fid === null) {
@@ -268,9 +269,6 @@ app.frame('/exploreDelegates', async (c) => {
 
 
   return c.res({
-    headers: {
-      'Cache-Control': 'stale-while-revalidate=600'
-      },
     image: (
       <div style={{
         display: 'flex',
