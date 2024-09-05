@@ -269,7 +269,7 @@ app.frame('/exploreDelegates', async (c) => {
 
   return c.res({
     headers: {
-      'Cache-Control': 'max-age=0'
+      'Cache-Control': 'stale-while-revalidate=600'
       },
     image: (
       <div style={{
