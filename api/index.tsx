@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 dotenv.config();
 
-import { Button, Frog, FrameIntent } from 'frog'
+import { Button, Frog, FrameIntent} from 'frog'
 import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel'
 import { devtools } from 'frog/dev'
@@ -45,10 +45,13 @@ app.frame('/', (c) => {
 app.frame('/delegatesStats', async (c) => {
   /* const {  frameData } = c;
  const { fid } = frameData || {}  */  
+
+ /* const { inputText } = c;
+  const identifier = inputText === undefined ? c.frameData?.fid : Number(inputText) */
  const fid = 376182;
 
 
- if (fid === undefined){
+ if (typeof fid !== 'number' || fid === null){
   return c.res({
     image: `/Frame_6_error.png`,
     imageAspectRatio: '1.91:1',
@@ -229,7 +232,7 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 
 app.frame('/exploreDelegates', async (c) => {
   /* const {  frameData } = c;
-  const { fid } = frameData || {}   */ 
+  const { fid } = frameData || {}    */
   const fid = 376182;
 
 
@@ -240,6 +243,7 @@ app.frame('/exploreDelegates', async (c) => {
       intents: [<Button.Reset>Try again</Button.Reset>],
     });
   }
+  let delegates: suggestionResponseDTO 
 
   try {
     const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_suggested_delegates`);
@@ -251,118 +255,117 @@ app.frame('/exploreDelegates', async (c) => {
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching delegate info for fid ${fid}, Status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const delegates: suggestionResponseDTO = await response.json();
+    delegates = await response.json();
 
-    if (delegates.length === 0) {
-      return c.res({
-        image: `/back2.png`,
-        imageAspectRatio: '1.91:1',
-        intents: [<Button.Reset>Try again</Button.Reset>],
-      });
-    }
-
-    const intents = getIntents(delegates);
-    intents.push(<Button.Reset>Reset</Button.Reset>);
-
-
-  return c.res({
-    image: (
-      <div style={{
-        display: 'flex',
-        background: '#f6f6f6',
-        width: '100%',
-        height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        position: 'relative'
-      }}>
-        <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'absolute',
-            color: '#161B33',
-            fontSize: '70px',
-            textTransform: 'uppercase',
-            letterSpacing: '-0.030em',
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            boxSizing: 'border-box',
-            alignItems: 'center',
-            lineHeight: 1.4,
-            padding: '0px 50px',
-            overflow: 'hidden', 
-            textOverflow: 'ellipsis',
-            textAlign: 'center', 
-          }}>
-            <h1></h1>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                width: '100%',
-                maxWidth: '100%',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-                gap: '10px'
-            }}>
-                  <ul style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    listStyleType: 'none',
-                    padding: '0',
-                    margin: '0',
-                    width: '40%',
-                    boxSizing: 'border-box'
-                  }}>
-                    {delegates.map((item, index) => (
-                      <li key={index} style={{
-                        margin: '10px 0',
-                        padding: '5px',
-                        borderBottom: '1px solid #ddd',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}>{item.address}</li>
-                    ))}
-                  </ul>
-                
-                  <ul style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    listStyleType: 'none',
-                    padding: 0,
-                    margin: '0',
-                    width: '20%',
-                    boxSizing: 'border-box',
-                  }}>
-                    {delegates.map((item, index) => (
-                      <li key={index} style={{ margin: '10px 0',
-                        padding: '5px',
-                        borderBottom: '1px solid #ddd',
-                        justifyContent: 'flex-end', }}>{item.count}</li>
-                    ))}
-                  </ul>
-            </div>
-        </div>
-      </div>
-    ),
-    intents,
-  });
 } catch (error) {
   console.error('Error fetching delegate data:', error);
-
   return c.res({
     image: `/Frame_6_error.png`,
     imageAspectRatio: '1.91:1',
     intents: [<Button.Reset>Try again</Button.Reset>],
   });
 }
+if (delegates.length === 0) {
+  return c.res({
+    image: `/back2.png`,
+    imageAspectRatio: '1.91:1',
+    intents: [<Button.Reset>Try again</Button.Reset>],
+  });
+}
+
+const intents = getIntents(delegates);
+intents.push(<Button.Reset>Reset</Button.Reset>);
+
+return c.res({
+image: (
+  <div style={{
+    display: 'flex',
+    background: '#f6f6f6',
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'relative'
+  }}>
+    <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        color: '#161B33',
+        fontSize: '70px',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.030em',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        lineHeight: 1.4,
+        padding: '0px 50px',
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis',
+        textAlign: 'center', 
+      }}>
+        <h1></h1>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            maxWidth: '100%',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '10px'
+        }}>
+              <ul style={{
+                display: 'flex',
+                flexDirection: 'column',
+                listStyleType: 'none',
+                padding: '0',
+                margin: '0',
+                width: '40%',
+                boxSizing: 'border-box'
+              }}>
+                {delegates.map((item, index) => (
+                  <li key={index} style={{
+                    margin: '10px 0',
+                    padding: '5px',
+                    borderBottom: '1px solid #ddd',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}>{item.address}</li>
+                ))}
+              </ul>
+            
+              <ul style={{
+                display: 'flex',
+                flexDirection: 'column',
+                listStyleType: 'none',
+                padding: 0,
+                margin: '0',
+                width: '20%',
+                boxSizing: 'border-box',
+              }}>
+                {delegates.map((item, index) => (
+                  <li key={index} style={{ margin: '10px 0',
+                    padding: '5px',
+                    borderBottom: '1px solid #ddd',
+                    justifyContent: 'flex-end', }}>{item.count}</li>
+                ))}
+              </ul>
+        </div>
+    </div>
+  </div>
+),
+intents,
+});
+
 })
 
 // @ts-ignore
