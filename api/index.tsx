@@ -229,7 +229,7 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 app.frame('/exploreDelegates', async (c) => {
   /* const {  frameData } = c;
   const { fid } = frameData || {}    */
-  const fid = 376182;
+  const fid = 192336;
 
 
   if (typeof fid !== 'number' || fid === null) {
@@ -354,7 +354,7 @@ app.frame('/exploreDelegates', async (c) => {
         </div>
       </div>
     ),
-    intents: intents
+    intents,
   });
 } catch (error) {
   console.error('Error fetching delegate data:', error);
