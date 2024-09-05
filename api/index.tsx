@@ -4,15 +4,15 @@ dotenv.config();
 import { Button, Frog, FrameIntent } from 'frog'
 import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel'
-//import { devtools } from 'frog/dev'
-//import { serveStatic } from 'frog/serve-static'
+import { devtools } from 'frog/dev'
+import { serveStatic } from 'frog/serve-static'
 
 import { DelegatesResponseDTO } from './service/delegatesResponseDTO.js';
 import { addressCount, suggestionResponseDTO } from './service/suggestionResponseDTO.js';
 
 // Uncomment to use Edge Runtime.
 // export const config = {
-//   runtime: 'edge',
+// runtime: 'edge',
 // }
 
 export const app = new Frog({
@@ -227,9 +227,9 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 }
 
 app.frame('/exploreDelegates', async (c) => {
-  /* const {  frameData } = c;
-  const { fid } = frameData || {}    */
-  const fid = 192336;
+  const {  frameData } = c;
+  const { fid } = frameData || {}   
+  //const fid = 192336;
 
 
   if (typeof fid !== 'number' || fid === null) {
@@ -367,7 +367,10 @@ app.frame('/exploreDelegates', async (c) => {
 }
 })
 
-
+// @ts-ignore
+const isEdgeFunction = typeof EdgeFunction !== 'undefined'
+const isProduction = isEdgeFunction || import.meta.env?.MODE !== 'development'
+devtools(app, isProduction ? { assetsPath: '/.frog' } : { serveStatic })
 
 export const GET = handle(app)
 export const POST = handle(app)
