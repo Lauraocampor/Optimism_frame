@@ -229,65 +229,48 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 app.frame('/exploreDelegates', async (c) => {
   /* const {  frameData } = c;
   const { fid } = frameData || {}    */
+  const fid = 376182;
 
-  const fid = 376182
 
   if (typeof fid !== 'number' || fid === null) {
     return c.res({
       image: `/Frame_6_error.png`,
       imageAspectRatio: '1.91:1',
-      intents: [
-        <Button.Reset>Try again</Button.Reset>,
-      ],
+      intents: [<Button.Reset>Try again</Button.Reset>],
     });
   }
 
-  let delegates: suggestionResponseDTO
-  let intents: FrameIntent[]
-
-  try{
+  try {
     const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_suggested_delegates`);
     delegateApiURL.searchParams.append('fid', fid.toString());
 
-    const response = await fetch(delegateApiURL, {
+    const response = await fetch(delegateApiURL.toString(), {
       method: 'GET',
-      headers: {
-          'Content-Type': 'application/json'
-      }
-  })
-
-  if (!response.ok){
-    throw new Error(`Error get delegate info for fid ${fid}`)
-  }
-
-  delegates = await response.json();
-  if (delegates.length === 0) {
-    return c.res({
-      image: `/back2.png`,
-      imageAspectRatio: '1.91:1',
-      intents: [
-        <Button.Reset>Try again</Button.Reset>,
-      ],
+      headers: { 'Content-Type': 'application/json' },
     });
-  }
 
-  intents = getIntents(delegates)
-  intents.push(<Button.Reset>Reset</Button.Reset>)
-  
-  } catch (e) {
-    console.error('Error fetching delegate data:', e);
+    if (!response.ok) {
+      throw new Error(`Error fetching delegate info for fid ${fid}, Status: ${response.status}`);
+    }
 
-    return c.res({
-      image: `/Frame_6_error.png`,
-      imageAspectRatio: '1.91:1',
-      intents: [
-        <Button.Reset>Try again</Button.Reset>,
-      ],
-    });
-  }
+    const delegates: suggestionResponseDTO = await response.json();
+
+    if (delegates.length === 0) {
+      return c.res({
+        image: `/back2.png`,
+        imageAspectRatio: '1.91:1',
+        intents: [<Button.Reset>Try again</Button.Reset>],
+      });
+    }
+
+    const intents = getIntents(delegates);
+    intents.push(<Button.Reset>Reset</Button.Reset>);
 
 
   return c.res({
+    headers: {
+      'Cache-Control': 'max-age=0'
+      },
     image: (
       <div style={{
         display: 'flex',
@@ -373,6 +356,15 @@ app.frame('/exploreDelegates', async (c) => {
     ),
     intents: intents
   });
+} catch (error) {
+  console.error('Error fetching delegate data:', error);
+
+  return c.res({
+    image: `/Frame_6_error.png`,
+    imageAspectRatio: '1.91:1',
+    intents: [<Button.Reset>Try again</Button.Reset>],
+  });
+}
 })
 
 
