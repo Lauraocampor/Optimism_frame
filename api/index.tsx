@@ -338,7 +338,7 @@ image: (
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>
-                    <span style={{flexGrow: 1, flexShrink: 1, flexBasis: '0%'}}>{item.address.substring(0, 14)} </span> 
+                    <div style={{display: 'flex', flex: '1'}}>{item.address.substring(0, 14)} </div> 
                     {item.count}
                 </li>
               ))}
