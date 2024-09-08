@@ -281,6 +281,27 @@ intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
 image: (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        color: '#161B33',
+        fontSize: '70px',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.030em',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        lineHeight: 1.4,
+        padding: '0px 50px',
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis',
+        textAlign: 'center', 
+      }}>
+        <h1></h1>
         <div style={{
             display: 'flex',
             flexDirection: 'row',
@@ -328,6 +349,7 @@ image: (
                 ))}
               </ul>
         </div>
+    </div>
 ),
 intents,
 });
