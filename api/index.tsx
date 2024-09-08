@@ -320,6 +320,26 @@ image: (
             flexWrap: 'wrap',
             gap: '10px'
         }}>
+            <ul style={{
+              display: 'flex',
+              flexDirection: 'column',
+              listStyleType: 'none',
+              padding: '0',
+              margin: '0',
+              width: '40%',
+              boxSizing: 'border-box'
+            }}>
+              {delegates.map((item, index) => (
+                <li key={index} style={{
+                  margin: '10px 0',
+                  padding: '5px',
+                  borderBottom: '1px solid #ddd',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}>{item.address}</li>
+              ))}
+            </ul>
         </div>
     </div>
 </div>
