@@ -309,7 +309,18 @@ image: (
         overflow: 'hidden', 
         textOverflow: 'ellipsis',
         textAlign: 'center', 
-      }}>     
+      }}>       
+        <h1></h1>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            maxWidth: '100%',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '10px'
+        }}>
+        </div>
     </div>
 </div>
 ),
