@@ -331,15 +331,13 @@ image: (
             }}>
               {delegates.map((item, index) => (
                 <li key={index} style={{
-                  display: 'flex',
                   margin: '10px 0',
                   padding: '5px',
                   borderBottom: '1px solid #ddd',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>
-                  <span>{item.address.substring(0, 14)}</span> 
-                  <span>{item.count}</span>
+                  {item.address.substring(0, 14)} {item.count}
                 </li>
               ))}
             </ul>
