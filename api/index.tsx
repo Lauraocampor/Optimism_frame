@@ -318,7 +318,6 @@ image: (
             maxWidth: '100%',
             justifyContent: 'center',
             flexWrap: 'wrap',
-            gap: '10px'
         }}>
             <ul style={{
               display: 'flex',
@@ -333,10 +332,10 @@ image: (
                 <li key={index} style={{
                   display: 'flex',
                   margin: '10px 0',
-                  padding: '5px',
                   borderBottom: '1px solid #ddd',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
+                  height: '120px'
                 }}>
                     {item.address.substring(0, 14)} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {item.count}
                 </li>
