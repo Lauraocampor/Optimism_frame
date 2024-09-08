@@ -349,12 +349,7 @@ image: (
               ))}
             </ul>
         </div>
-<<<<<<< HEAD
     </div>
-=======
-    </div>
-  </div>
->>>>>>> d6b57b26093918c0e65cce761bb8552b04bd0747
 ),
 intents,
 });
