@@ -331,6 +331,7 @@ image: (
             }}>
               {delegates.map((item, index) => (
                 <li key={index} style={{
+                  display: 'flex',
                   margin: '10px 0',
                   padding: '5px',
                   borderBottom: '1px solid #ddd',
