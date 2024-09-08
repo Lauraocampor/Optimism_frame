@@ -290,6 +290,27 @@ image: (
     }}
   > 
     <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        color: '#161B33',
+        fontSize: '70px',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.030em',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        lineHeight: 1.4,
+        padding: '0px 50px',
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis',
+        textAlign: 'center', 
+      }}>     
+    </div>
 </div>
 ),
 intents,
