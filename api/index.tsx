@@ -326,18 +326,20 @@ image: (
               listStyleType: 'none',
               padding: '0',
               margin: '0',
-              width: '40%',
+              width: '55%',
               boxSizing: 'border-box'
             }}>
               {delegates.map((item, index) => (
                 <li key={index} style={{
+                  display: 'flex',
                   margin: '10px 0',
                   padding: '5px',
                   borderBottom: '1px solid #ddd',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>
-                  {item.address.substring(0, 14)} {item.count}
+                  <span style={{flex: '1'}}>{item.address.substring(0, 14)}</span> 
+                  <span>{item.count}</span>
                 </li>
               ))}
             </ul>
