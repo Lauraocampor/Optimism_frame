@@ -280,8 +280,9 @@ const intents = getIntents(delegates);
 intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
+imageAspectRatio: '1.91:1',
 image: (
-  <div style={{
+  <div style={{    
     display: 'flex',
     background: '#f6f6f6',
     width: '100%',
@@ -291,6 +292,7 @@ image: (
     alignItems: 'center',
     position: 'relative'
   }}>
+    <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
     <div
       style={{
         display: 'flex',
