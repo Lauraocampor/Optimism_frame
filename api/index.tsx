@@ -281,6 +281,8 @@ intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
 image: (
+  <div style={{display:'flex'}}>
+    <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
     <div
       style={{
         display: 'flex',
@@ -350,6 +352,7 @@ image: (
               </ul>
         </div>
     </div>
+  </div>
 ),
 intents,
 });
