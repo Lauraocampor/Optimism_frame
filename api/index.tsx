@@ -301,6 +301,7 @@ image: (
         textOverflow: 'ellipsis',
         textAlign: 'center', 
       }}>
+        <h1></h1>
         <div style={{
             display: 'flex',
             flexDirection: 'row',
@@ -310,7 +311,6 @@ image: (
             flexWrap: 'wrap',
             gap: '10px'
         }}>
-            <h1></h1>
             <ul style={{
               display: 'flex',
               flexDirection: 'column',
