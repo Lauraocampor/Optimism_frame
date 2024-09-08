@@ -291,6 +291,36 @@ image: (
     alignItems: 'center',
     position: 'relative'
   }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        color: '#161B33',
+        fontSize: '70px',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.030em',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        lineHeight: 1.4,
+        padding: '0px 50px',
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis',
+        textAlign: 'center', 
+      }}>
+        <h1></h1>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            maxWidth: '100%',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: '10px'
+        }}>
               <ul style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -328,6 +358,8 @@ image: (
                     justifyContent: 'flex-end', }}>{item.count}</li>
                 ))}
               </ul>
+        </div>
+    </div>
   </div>
 ),
 intents,
