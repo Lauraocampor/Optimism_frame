@@ -280,7 +280,7 @@ const intents = getIntents(delegates);
 intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
-imageAspectRatio: '1.91:1',
+imageAspectRatio: '1:1',
 image: (
   
   <div
