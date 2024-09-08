@@ -281,17 +281,6 @@ intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
 image: (
-  <div style={{
-    display: 'flex',
-    background: '#f6f6f6',
-    width: '100%',
-    height: '100%',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    position: 'relative'
-  }}>
-    <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
     <div
       style={{
         display: 'flex',
@@ -360,8 +349,12 @@ image: (
               ))}
             </ul>
         </div>
+<<<<<<< HEAD
+    </div>
+=======
     </div>
   </div>
+>>>>>>> d6b57b26093918c0e65cce761bb8552b04bd0747
 ),
 intents,
 });
