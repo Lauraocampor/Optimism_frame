@@ -43,13 +43,8 @@ app.frame('/', (c) => {
 })
 
 app.frame('/delegatesStats', async (c) => {
-  /* const {  frameData } = c;
- const { fid } = frameData || {}  */  
-
- /* const { inputText } = c;
-  const identifier = inputText === undefined ? c.frameData?.fid : Number(inputText) */
- const fid = 376182;
-
+ const {  frameData } = c;
+ const { fid } = frameData || {}
 
  if (typeof fid !== 'number' || fid === null){
   return c.res({
@@ -231,9 +226,8 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 }
 
 app.frame('/exploreDelegates', async (c) => {
-  /* const {  frameData } = c;
-  const { fid } = frameData || {}    */
-  const fid = 376182;
+  const {  frameData } = c;
+  const { fid } = frameData || {}
 
 
   if (typeof fid !== 'number' || fid === null) {
