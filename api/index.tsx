@@ -338,16 +338,7 @@ image: (
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>
-                  <div style={{
-                    display: 'flex'
-                  }}>
-                    {item.address.substring(0, 14)}
-                    <div style={{
-                      display: 'flex'
-                    }}>
-                      {item.count}
-                    </div>
-                  </div>
+                    {item.address.substring(0, 14)} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {item.count}
                 </li>
               ))}
             </ul>
