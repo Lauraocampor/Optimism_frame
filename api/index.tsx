@@ -304,7 +304,7 @@ image: (
         justifyContent: 'center',
         boxSizing: 'border-box',
         alignItems: 'center',
-        lineHeight: 1.4,
+        lineHeight: 0.8,
         padding: '0px 50px',
         overflow: 'hidden', 
         textOverflow: 'ellipsis',
@@ -317,7 +317,7 @@ image: (
             width: '100%',
             maxWidth: '100%',
             justifyContent: 'center',
-            flexWrap: 'wrap',
+            flexWrap: 'wrap'
         }}>
             <ul style={{
               display: 'flex',
@@ -331,13 +331,13 @@ image: (
               {delegates.map((item, index) => (
                 <li key={index} style={{
                   display: 'flex',
-                  margin: '10px 0',
+                  margin: '5px 0',
                   borderBottom: '1px solid #ddd',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                   height: '120px'
                 }}>
-                    {item.address.substring(0, 14)} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {item.count}
+                    {item.address.substring(0, 14)} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {item.count}
                 </li>
               ))}
             </ul>
