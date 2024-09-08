@@ -326,7 +326,6 @@ image: (
                 <li key={index} style={{
                   display: 'flex',
                   margin: '5px 0',
-                  borderBottom: '1px solid #ddd',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                   height: '120px'
