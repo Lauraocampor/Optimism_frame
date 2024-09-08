@@ -334,10 +334,11 @@ image: (
                   margin: '10px 0',
                   padding: '5px',
                   borderBottom: '1px solid #ddd',
-                  overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
-                }}>{item.address}</li>
+                }}>
+                  {item.address.substring(0, 14)} {item.count}
+                </li>
               ))}
             </ul>
         </div>
