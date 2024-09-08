@@ -281,6 +281,16 @@ intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
 image: (
+  <div style={{
+    display: 'flex',
+    background: '#f6f6f6',
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'relative'
+  }}>
     <div
       style={{
         display: 'flex',
@@ -350,6 +360,7 @@ image: (
             </ul>
         </div>
     </div>
+  </div>
 ),
 intents,
 });
