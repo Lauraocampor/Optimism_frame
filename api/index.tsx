@@ -160,7 +160,7 @@ try {
               }}
             >            
               {`Did `}
-              <span style={{ color: 'red' }}>{delegateUpperCase}</span>
+              <span style={{ color: '#E5383B' }}>{delegateUpperCase}</span>
               <span style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal'}}>vote in the most recent proposal?</span>
             </div>
           </div>
@@ -209,8 +209,10 @@ try {
               top: '20px', 
               textAlign: 'center', 
             }}
-          >
-            {`did ${delegateUpperCase} voted in the most recent proposal? `}
+          >    
+            {`Did `}
+            <span style={{ color: '#E5383B' }}>{delegateUpperCase}</span>
+            <span style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal'}}>vote in the most recent proposal?</span>
           </div>
         </div>
       ),
@@ -233,6 +235,13 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
     const position = index+1
     return <Button.Link href={`https://vote.optimism.io/delegates/${delegate.address}`}>{`${position}${getOrdinalSuffix(position)} Delegate`}</Button.Link>
   })
+}
+
+function truncateMiddle (text: string, maxLength: number) : string{
+  if (text.length <= maxLength) return text
+  const start = Math.ceil((maxLength - 3) / 2)
+  const end = Math.floor((maxLength - 3) / 2)
+  return text.slice(0, start) + '...' + text.slice(-end)
 }
 
 app.frame('/exploreDelegates', async (c) => {
@@ -295,19 +304,17 @@ image: (
     position: 'relative',
   }}
 > 
-  <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`} />
+  <img width="1200" height="630" alt="background" src={`/Frame_3.png`} />
   <div
     style={{
       display: 'flex',
       flexDirection: 'column',
       position: 'absolute',
       color: '#161B33',
-      fontSize: '70px',
+      fontSize: '60px',
       textTransform: 'uppercase',
       letterSpacing: '-0.030em',
       width: '100%',
-      height: '100%',
-      justifyContent: 'center',
       boxSizing: 'border-box',
       alignItems: 'center',
       lineHeight: 0.8,
@@ -315,8 +322,9 @@ image: (
       overflow: 'hidden', 
       textOverflow: 'ellipsis',
       textAlign: 'center', 
-    }}>       
-    <h1></h1>
+      top: '20%',
+      height: '80%',
+    }}>      
     <div style={{
       display: 'flex',
       flexDirection: 'row', // Alinea los ul en una fila
@@ -343,9 +351,14 @@ image: (
                 alignItems: 'center',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                height: 'auto', // Ajusta la altura según el contenido
+                height: 'auto', // Ajusta la altura según el contenido  
               }}>
-                {item.address.substring(0, 6)}
+                <span style={{      
+                  color: colIndex === 1 ? '#E5383B' : '#36A4B4',
+                }}>
+                  {truncateMiddle(item.address, 11)}
+                </span>
+                {'Delegated by'}
                 <br />
                 {item.count}
               </div>
