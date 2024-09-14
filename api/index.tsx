@@ -352,8 +352,12 @@ image: (
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 height: 'auto', // Ajusta la altura según el contenido  
-              }}>        
-                {truncateMiddle(item.address, 11)}                  
+              }}>    
+                <span style={{      
+                  color: '#E5383B'
+                }}>
+                  {truncateMiddle(item.address, 11)}                  
+                </span>           
                 <br/>
                 {item.count}
               </div>
