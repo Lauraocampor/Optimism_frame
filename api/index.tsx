@@ -43,8 +43,10 @@ app.frame('/', (c) => {
 })
 
 app.frame('/delegatesStats', async (c) => {
- const {  frameData } = c;
- const { fid } = frameData || {}
+ /* const {  frameData } = c;
+ const { fid } = frameData || {} */
+
+ const fid = 192336
 
  if (typeof fid !== 'number' || fid === null){
   return c.res({
@@ -118,10 +120,11 @@ try {
   const addressDelegate = delegate.delegateInfo.delegateAddress
 
   const delegateData = userDelegate? userDelegate : addressDelegate
+  const delegateUpperCase= delegateData.toUpperCase()
   if(!delegate.isGoodDelegate) {
 
     return c.res({
-        image: (          
+        image: (
           <div style={{
             display: 'flex',
             background: '#f6f6f6',
@@ -131,29 +134,31 @@ try {
             justifyContent: 'flex-end',
             alignItems: 'center',
             position: 'relative'
-            }}>
-            <img width="1200" height="630" alt="background" src={`/Frame_2.1_bad_delegate_stats.png`}/>
+          }}>
+            {/* @ts-ignore */}
+            <img width="1200" height="630" alt="background" src={`/Frame_2.1_bad_delegate_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
             <div
               style={{
                 position: 'absolute',
-                color: '#E5383B',
-                fontSize: '75px',
-                lineHeight: '0.7',
-                textTransform: 'uppercase',
+                color: '#000000', 
+                fontSize: '75px', 
+                fontWeight: 'bold', 
+                lineHeight: '0.7', 
+                textTransform: 'uppercase', 
                 letterSpacing: '-0.030em',
                 whiteSpace: 'wrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                with: '100%',
-                maxWidth: '255px',
-                height: '100%',
-                maxHeight: '340px',
-                left: '190px',
-                bottom: '230px',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-              }}>
-              {`${delegateData}`}
+                width: '100%', 
+                margin: '20px', 
+                paddingLeft: '25px',
+                paddingRight: '25px',
+                left: '-20px', 
+                top: '20px', 
+                textAlign: 'center', 
+              }}
+            >
+              {`did ${delegateUpperCase} voted in the most recent proposal? `}
             </div>
           </div>
         ),
