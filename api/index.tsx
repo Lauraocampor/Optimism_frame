@@ -354,9 +354,7 @@ image: (
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>
                 {truncateMiddle(item.address, 11)}
-                <br />
                 {'Delegated by'}
-                <br />
                 {item.count}
               </div>
             ))
