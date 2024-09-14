@@ -353,11 +353,8 @@ image: (
                 whiteSpace: 'nowrap',
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>
-                <span style={{      
-                  color: colIndex === 1 ? '#E5383B' : '#36A4B4',
-                }}>
-                  {truncateMiddle(item.address, 11)}
-                </span>
+                {truncateMiddle(item.address, 11)}
+                <br />
                 {'Delegated by'}
                 <br />
                 {item.count}
