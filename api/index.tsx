@@ -233,8 +233,10 @@ function getIntents(delegates: addressCount[]) : FrameIntent[]{
 }
 
 app.frame('/exploreDelegates', async (c) => {
-  const {  frameData } = c;
-  const { fid } = frameData || {}
+ /* const {  frameData } = c;
+ const { fid } = frameData || {} */
+
+ const fid = 192336
 
 
   if (typeof fid !== 'number' || fid === null) {
@@ -282,67 +284,74 @@ intents.push(<Button.Reset>Reset</Button.Reset>);
 
 return c.res({
 image: (  
+<div
+  style={{
+    display: 'flex',
+    background: '#f6f6f6',
+    alignItems: 'center',
+    position: 'relative',
+  }}
+> 
+  <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`} />
   <div
     style={{
       display: 'flex',
-      background: '#f6f6f6',
+      flexDirection: 'column',
+      position: 'absolute',
+      color: '#161B33',
+      fontSize: '70px',
+      textTransform: 'uppercase',
+      letterSpacing: '-0.030em',
+      width: '100%',
+      height: '100%',
+      justifyContent: 'center',
+      boxSizing: 'border-box',
       alignItems: 'center',
-      position: 'relative',
-    }}
-  > 
-    <img width="1200" height="630" alt="background" src={`/Frame_3_rec.png`}/>
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'absolute',
-        color: '#161B33',
-        fontSize: '70px',
-        textTransform: 'uppercase',
-        letterSpacing: '-0.030em',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        boxSizing: 'border-box',
-        alignItems: 'center',
-        lineHeight: 0.8,
-        padding: '0px 50px',
-        overflow: 'hidden', 
-        textOverflow: 'ellipsis',
-        textAlign: 'center', 
-      }}>       
-        <h1></h1>
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '100%',
-            maxWidth: '100%',
-            justifyContent: 'center',
-            flexWrap: 'wrap'
+      lineHeight: 0.8,
+      padding: '0px 50px',
+      overflow: 'hidden', 
+      textOverflow: 'ellipsis',
+      textAlign: 'center', 
+    }}>       
+    <h1></h1>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'row', // Alinea los ul en una fila
+      flexWrap: 'wrap', // Permite que los ul se envuelvan en múltiples líneas si es necesario
+      width: '100%',
+      maxWidth: '100%',
+      justifyContent: 'center',
+    }}>
+      {[0, 1, 2].map(colIndex => (
+        <div key={colIndex} style={{
+          display: 'flex',
+          flexDirection: 'column', // Coloca los items en una columna
+          width: '30%', // Ajusta el ancho para tres columnas
+          boxSizing: 'border-box',
+          margin: '0 10px', // Espacio entre columnas
         }}>
-            <ul style={{
-              display: 'flex',
-              flexDirection: 'column',
-              listStyleType: 'none',
-              padding: '0',
-              margin: '0',
-              width: '55%',
-              boxSizing: 'border-box'
-            }}>
-              {delegates.map((item, index) => (
-                <li key={index} style={{
-                  display: 'flex',
-                  margin: '5px 0',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  height: '120px'
-                }}>
-                    {item.address.substring(0, 14)} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {item.count}
-                </li>
-              ))}
-            </ul>
+          {delegates
+            .filter((_, index) => index % 3 === colIndex) // Filtra los elementos para la columna actual
+            .map((item, index) => (
+              <div key={index} style={{
+                display: 'flex',
+                flexDirection: 'column', // Coloca address y count en una columna
+                margin: '5px 0',
+                alignItems: 'center',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                height: 'auto', // Ajusta la altura según el contenido
+              }}>
+                {item.address.substring(0, 6)}
+                <br />
+                {item.count}
+              </div>
+            ))
+          }
         </div>
+      ))}
     </div>
+  </div>
 </div>
 ),
 intents,
