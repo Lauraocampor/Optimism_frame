@@ -353,9 +353,7 @@ image: (
                 whiteSpace: 'nowrap',
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>    
-                <span style={{      
-                  color: '#E5383B'
-                }}>
+                <span>
                   {truncateMiddle(item.address, 11)}                  
                 </span>           
                 <br/>
