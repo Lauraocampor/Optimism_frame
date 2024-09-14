@@ -139,6 +139,7 @@ try {
             <img width="1200" height="630" alt="background" src={`/Frame_2.1_bad_delegate_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
             <div
               style={{
+                display: 'flex',
                 position: 'absolute',
                 color: '#000000', 
                 fontSize: '75px', 
@@ -155,10 +156,12 @@ try {
                 paddingRight: '25px',
                 left: '-20px', 
                 top: '20px', 
-                textAlign: 'center', 
+                textAlign: 'center'
               }}
-            >
-              {`did ${delegateUpperCase} voted in the most recent proposal? `}
+            >            
+              {`Did `}
+              <span style={{ color: 'red' }}>{delegateUpperCase}</span>
+              <span style={{ width: '100%', wordWrap: 'break-word', whiteSpace: 'normal'}}>vote in the most recent proposal?</span>
             </div>
           </div>
         ),
