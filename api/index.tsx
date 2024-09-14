@@ -311,7 +311,7 @@ image: (
       flexDirection: 'column',
       position: 'absolute',
       color: '#161B33',
-      fontSize: '60px',
+      fontSize: '65px',
       textTransform: 'uppercase',
       letterSpacing: '-0.030em',
       width: '100%',
@@ -352,8 +352,12 @@ image: (
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 height: 'auto', // Ajusta la altura según el contenido  
-              }}>
-                {truncateMiddle(item.address, 11)}
+              }}>                
+                <span style={{      
+                  color: colIndex === 1 ? '#E5383B' : '#36A4B4',
+                }}>
+                  {truncateMiddle(item.address, 11)}                  
+                </span>
                 <br/>
                 {item.count}
               </div>
