@@ -369,8 +369,7 @@ image: (
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>                    
                 {truncateMiddle(item.address, 11)}
-                <br/>
-                {item.count}
+                <span style={{ color: '#161B33', marginTop: '30px'}}>{item.count}</span>
               </div>
             ))
           }
