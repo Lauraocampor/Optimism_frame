@@ -95,6 +95,8 @@ try {
   });
 }
 
+  /* NO VERIFIED ADDRESS FRAME */
+
   if (!delegate.hasVerifiedAddress){
     return c.res({
       image: `/Frame_4_not_verified.png`,
@@ -105,12 +107,15 @@ try {
   })
   }
   
+  /* NO DELEGATE FRAME */
+
   if(!delegate.hasDelegate) {
     return c.res({
       image: `/Frame_5_no_delegate.png`,
       imageAspectRatio: '1.91:1',
       intents: [
-        <Button action='/exploreDelegates'>Explore delegates</Button>,
+        <Button action='/socialRecommendation'>PEOPLE I FOLLOW</Button>,
+        <Button action='/randomRecommendation'>RANDOM</Button>,
         <Button.Reset>Reset</Button.Reset>,
       ],
     })
@@ -121,7 +126,11 @@ try {
 
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
-  
+
+  delegate.isGoodDelegate = false
+
+  /* BAD DELEGATE FRAME */
+
   if(!delegate.isGoodDelegate) {
 
     return c.res({
@@ -167,7 +176,8 @@ try {
           </div>
         ),
         intents: [
-          <Button action='/exploreDelegates'>Explore delegates</Button>,
+          <Button action='/socialRecommendation'>PEOPLE I FOLLOW</Button>,
+          <Button action='/randomRecommendation'>RANDOM</Button>
         ],
       })
   }
@@ -176,6 +186,8 @@ try {
   if (typeof userDelegate !== 'string' || userDelegate === null) {
     throw new Error('Invalid type returned');
   }
+
+  /* GOOD DELEGATE FRAME */
     return c.res({
       image: (
         <div style={{
@@ -246,7 +258,7 @@ function truncateMiddle (text: string, maxLength: number) : string{
   return text.slice(0, start) + '...' + text.slice(-end)
 }
 
-app.frame('/exploreDelegates', async (c) => {
+app.frame('/socialRecommendation', async (c) => {
  /* const {  frameData } = c;
  const { fid } = frameData || {} */
 
@@ -287,7 +299,7 @@ app.frame('/exploreDelegates', async (c) => {
 }
 if (delegates.length === 0) {
   return c.res({
-    image: `/back2.png`,
+    image: `/Frame_8_no_followers.png`,
     imageAspectRatio: '1.91:1',
     intents: [<Button.Reset>Try again</Button.Reset>],
   });
@@ -358,6 +370,131 @@ image: (
                 {truncateMiddle(item.address, 11)}     
                 <br/>
                 {item.count}
+              </div>
+            ))
+          }
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+),
+intents,
+});
+
+})
+
+
+app.frame('/randomRecommendation', async (c) => {
+ /* const {  frameData } = c;
+ const { fid } = frameData || {} */
+
+ const fid = 192336
+
+
+  if (typeof fid !== 'number' || fid === null) {
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [<Button.Reset>Try again</Button.Reset>],
+    });
+  }
+  let delegates: suggestionResponseDTO 
+
+  try {
+    const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_suggested_delegates`);
+    delegateApiURL.searchParams.append('fid', fid.toString());
+
+    const response = await fetch(delegateApiURL.toString(), {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    delegates = await response.json();
+
+} catch (error) {
+  console.error('Error fetching delegate data:', error);
+  return c.res({
+    image: `/Frame_6_error.png`,
+    imageAspectRatio: '1.91:1',
+    intents: [<Button.Reset>Try again</Button.Reset>],
+  });
+}
+if (delegates.length === 0) {
+  return c.res({
+    image: `/Frame_8_no_followers.png`,
+    imageAspectRatio: '1.91:1',
+    intents: [<Button.Reset>Try again</Button.Reset>],
+  });
+}
+
+const intents = getIntents(delegates);
+intents.push(<Button.Reset>Reset</Button.Reset>);
+
+return c.res({
+image: (  
+<div
+  style={{
+    display: 'flex',
+    background: '#f6f6f6',
+    alignItems: 'center',
+    position: 'relative',
+  }}
+> 
+  <img width="1200" height="630" alt="background" src={`/Frame_7_random_delegates.png`} />
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'absolute',
+      color: '#161B33',
+      fontSize: '65px',
+      textTransform: 'uppercase',
+      letterSpacing: '-0.030em',
+      width: '100%',
+      boxSizing: 'border-box',
+      alignItems: 'center',
+      lineHeight: 0.8,
+      padding: '0px',
+      overflow: 'hidden', 
+      textOverflow: 'ellipsis',
+      textAlign: 'center', 
+      top: '30%',
+      height: '80%',
+    }}>      
+    <div style={{
+      display: 'flex',
+      flexDirection: 'row', 
+      flexWrap: 'wrap', 
+      width: '100%',
+      maxWidth: '100%',
+      justifyContent: 'center',
+    }}>
+      {[0, 1, 2].map(colIndex => (
+        <div key={colIndex} style={{
+          display: 'flex',
+          flexDirection: 'column', 
+          width: '30%', 
+          boxSizing: 'border-box',
+          margin: '0 15px', 
+        }}>
+          {delegates
+            .filter((_, index) => index % 3 === colIndex) 
+            .map((item, index) => (
+              <div key={index} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '5px 0',
+                alignItems: 'center',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                height: 'auto', 
+              }}>                    
+                {truncateMiddle(item.address, 11)}
               </div>
             ))
           }
