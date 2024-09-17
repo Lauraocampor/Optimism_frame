@@ -353,7 +353,7 @@ image: (
           flexDirection: 'column', // Coloca los items en una columna
           width: '30%', // Ajusta el ancho para tres columnas
           boxSizing: 'border-box',
-          margin: '0 15px', // Espacio entre columnas
+          margin: '0 20px', // Espacio entre columnas
         }}>
           {delegates
             .filter((_, index) => index % 3 === colIndex) // Filtra los elementos para la columna actual
