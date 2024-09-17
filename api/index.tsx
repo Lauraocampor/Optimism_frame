@@ -336,7 +336,7 @@ image: (
       overflow: 'hidden', 
       textOverflow: 'ellipsis',
       textAlign: 'center', 
-      top: '20%',
+      top: '18%',
       height: '80%',
     }}>      
     <div style={{
@@ -365,11 +365,13 @@ image: (
                 alignItems: 'center',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                lineHeight: '1.1',
                 color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>                    
                 {truncateMiddle(item.address, 11)}
-                <span style={{ color: '#161B33', marginTop: '30px'}}>{item.count}</span>
+                <br/>
+                {item.count}
               </div>
             ))
           }
@@ -491,6 +493,7 @@ image: (
                 margin: '5px 0',
                 alignItems: 'center',
                 textOverflow: 'ellipsis',
+                color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                 whiteSpace: 'nowrap',
                 height: 'auto', 
               }}>                    
