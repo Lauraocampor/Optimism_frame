@@ -121,6 +121,7 @@ try {
 
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
+  
   if(!delegate.isGoodDelegate) {
 
     return c.res({
@@ -136,7 +137,7 @@ try {
             position: 'relative'
           }}>
             {/* @ts-ignore */}
-            <img width="1200" height="630" alt="background" src={`/Frame_2.1_bad_delegate_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
+            <img width="1200" height="630" alt="background" src={`/Frame_2.1_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
             <div
               style={{
                 display: 'flex',
