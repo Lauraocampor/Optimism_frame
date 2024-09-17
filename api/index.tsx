@@ -331,7 +331,6 @@ image: (
       width: '100%',
       boxSizing: 'border-box',
       alignItems: 'center',
-      lineHeight: 0.8,
       padding: '0px',
       overflow: 'hidden', 
       textOverflow: 'ellipsis',
