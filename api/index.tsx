@@ -318,21 +318,21 @@ image: (
     position: 'relative',
   }}
 > 
-  <img width="1200" height="630" alt="background" src={`/Frame_3.png`} />
+  <img width="1200" height="630" alt="background" src={`/Frame_3_rec_new.png`} />
   <div
     style={{
       display: 'flex',
       flexDirection: 'column',
       position: 'absolute',
       color: '#161B33',
-      fontSize: '65px',
+      fontSize: '70px',
       textTransform: 'uppercase',
       letterSpacing: '-0.030em',
       width: '100%',
       boxSizing: 'border-box',
       alignItems: 'center',
       lineHeight: 0.8,
-      padding: '0px 50px',
+      padding: '0px',
       overflow: 'hidden', 
       textOverflow: 'ellipsis',
       textAlign: 'center', 
@@ -353,7 +353,7 @@ image: (
           flexDirection: 'column', // Coloca los items en una columna
           width: '30%', // Ajusta el ancho para tres columnas
           boxSizing: 'border-box',
-          margin: '0 10px', // Espacio entre columnas
+          margin: '0 20px', // Espacio entre columnas
         }}>
           {delegates
             .filter((_, index) => index % 3 === colIndex) // Filtra los elementos para la columna actual
@@ -361,13 +361,17 @@ image: (
               <div key={index} style={{
                 display: 'flex',
                 flexDirection: 'column', // Coloca address y count en una columna
-                margin: '5px 0',
+                margin: '10px 0px',
                 alignItems: 'center',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>                    
-                {truncateMiddle(item.address, 11)}     
+                <div style={{
+                  color: colIndex === 1 ? '#E5383B' : '#36A4B4',
+                }}>
+                {truncateMiddle(item.address, 11)}
+                </div> 
                 <br/>
                 {item.count}
               </div>
