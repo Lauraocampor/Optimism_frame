@@ -329,6 +329,7 @@ image: (
       textTransform: 'uppercase',
       letterSpacing: '-0.030em',
       width: '100%',
+      lineHeight: 1.1,
       boxSizing: 'border-box',
       alignItems: 'center',
       padding: '0px',
@@ -352,7 +353,7 @@ image: (
           flexDirection: 'column', // Coloca los items en una columna
           width: '30%', // Ajusta el ancho para tres columnas
           boxSizing: 'border-box',
-          margin: '0 20px', // Espacio entre columnas
+          margin: '0 15px', // Espacio entre columnas
         }}>
           {delegates
             .filter((_, index) => index % 3 === colIndex) // Filtra los elementos para la columna actual
@@ -360,11 +361,10 @@ image: (
               <div key={index} style={{
                 display: 'flex',
                 flexDirection: 'column', // Coloca address y count en una columna
-                margin: '10px 0px',
+                margin: '5px 0',
                 alignItems: 'center',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                lineHeight: '1.1',
                 color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>                    
