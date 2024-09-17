@@ -365,13 +365,10 @@ image: (
                 alignItems: 'center',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                 height: 'auto', // Ajusta la altura según el contenido  
               }}>                    
-                <div style={{
-                  color: colIndex === 1 ? '#E5383B' : '#36A4B4',
-                }}>
                 {truncateMiddle(item.address, 11)}
-                </div> 
                 <br/>
                 {item.count}
               </div>
