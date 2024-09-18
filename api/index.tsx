@@ -344,7 +344,6 @@ image: (
     <div style={{
       display: 'flex',
       flexDirection: 'row', 
-      flexWrap: 'wrap', 
       width: '100%',
       maxWidth: '100%',
       justifyContent: 'center',
@@ -355,7 +354,7 @@ image: (
           flexDirection: 'column',
           width: '30%', 
           boxSizing: 'border-box',
-          margin: '0 20px', 
+          margin: '0 26px', 
         }}>
           {delegates
             .filter((_, index) => index % 3 === colIndex)
