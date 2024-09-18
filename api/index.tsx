@@ -171,7 +171,7 @@ try {
               overflow: 'hidden', 
               textOverflow: 'ellipsis',
               textAlign: 'center', 
-              top: '3%',
+              top: '8%',
               height: '30%',
               lineClamp: 2,
               whiteSpace: 'wrap'
@@ -183,7 +183,7 @@ try {
         </div>
       ),
         intents: [
-          <Button action='/socialRecommendation'>People I follow</Button>,
+          <Button action='/socialRecommendation'>Social Graph</Button>,
           <Button action='/randomRecommendation'>Random</Button>,
           <Button.Reset>Reset</Button.Reset>
         ],
