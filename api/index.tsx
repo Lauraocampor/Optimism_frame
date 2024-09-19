@@ -310,7 +310,7 @@ app.frame('/socialRecommendation', async (c) => {
     });
   }
 
-  delegates.length = 2
+  delegates.length = 1
 
   if (delegates.length === 0) {
     return c.res({
@@ -353,28 +353,27 @@ app.frame('/socialRecommendation', async (c) => {
         overflow: 'hidden', 
         textOverflow: 'ellipsis',
         textAlign: 'center', 
-        top: '18%',
-        height: '80%',
+        top: '26%',
+        height: '80%'
       }}>      
       <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        maxWidth: '600px',
-        justifyContent: 'center',
-        margin: '0 auto'
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
+            left: '16%',
+            width: '100%',
+            maxWidth: '100%',
       }}>
         {delegates.map((item, index) => (
           <div key={index} style={{
             display: 'flex',
             flexDirection: 'column',
-            margin: '5px 0',
+            margin: '0',
             alignItems: 'center',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            color: '#36A4B4',
-            height: 'auto',
+            color: '#E5383B',
+            height: 'auto'
           }}>                    
             {truncateMiddle(item.address, 11)}
             <br/>
