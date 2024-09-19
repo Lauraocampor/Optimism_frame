@@ -95,10 +95,10 @@ function truncateMiddle (text: string, maxLength: number) : string{
 }
 
 app.frame('/delegatesStats', async (c) => {
- const {  frameData } = c;
- const { fid } = frameData || {}
+ /* const {  frameData } = c;
+ const { fid } = frameData || {} */
 
- //const fid = 192336
+ const fid = 192336
 
  if (typeof fid !== 'number' || fid === null){
   return c.res({
