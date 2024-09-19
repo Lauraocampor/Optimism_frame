@@ -143,6 +143,9 @@ try {
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
 
+
+  delegate.isGoodDelegate = false
+
   /* BAD DELEGATE FRAME */
 
   if(!delegate.isGoodDelegate) {
@@ -306,6 +309,9 @@ app.frame('/socialRecommendation', async (c) => {
       intents: [<Button.Reset>Try again</Button.Reset>],
     });
   }
+
+  delegates.length = 2
+
   if (delegates.length === 0) {
     return c.res({
       image: `/Frame_8_no_followers.png`,
@@ -329,7 +335,7 @@ app.frame('/socialRecommendation', async (c) => {
       position: 'relative',
     }}
   > 
-    <img width="1200" height="630" alt="background" src={`/Frame_3_social.png`} />
+    <img width="1200" height="630" alt="background" src={`/Frame_3_rec_ONLY_1.png`} />
     <div
       style={{
         display: 'flex',
@@ -357,7 +363,7 @@ app.frame('/socialRecommendation', async (c) => {
         width: '100%',
         maxWidth: '600px',
         justifyContent: 'center',
-        margin: '0 auto',
+        margin: '0 auto'
       }}>
         {delegates.map((item, index) => (
           <div key={index} style={{
@@ -395,7 +401,7 @@ app.frame('/socialRecommendation', async (c) => {
       position: 'relative',
     }}
   > 
-    <img width="1200" height="630" alt="background" src={`/Frame_3_social.png`} />
+    <img width="1200" height="630" alt="background" src={`/Frame_3_rec_ONLY_2.png`} />
     <div
       style={{
         display: 'flex',
@@ -414,20 +420,20 @@ app.frame('/socialRecommendation', async (c) => {
         textOverflow: 'ellipsis',
         textAlign: 'center', 
         top: '18%',
-        height: '80%',
+        height: '80%'
       }}>      
       <div style={{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        width: '100%',
+        width: '100%'
       }}>
         {[0, 1].map(colIndex => (
           <div key={colIndex} style={{
             display: 'flex',
             flexDirection: 'column',
-            width: '45%', // Ajusta el ancho para dos columnas
-            margin: '0 20px',
+            width: '34%',
+            margin: '0'
           }}>
             {delegates
               .filter((_, index) => index % 2 === colIndex)
@@ -440,7 +446,7 @@ app.frame('/socialRecommendation', async (c) => {
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                   color: colIndex === 1 ? '#E5383B' : '#36A4B4',
-                  height: 'auto',
+                  height: 'auto'
                 }}>                    
                   {truncateMiddle(item.address, 11)}
                   <br/>
