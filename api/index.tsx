@@ -137,14 +137,13 @@ try {
     })
   }
 
-  const userDelegate = delegate.delegateInfo.warpcast
+  const userDelegate = truncateWord(delegate.delegateInfo.warpcast, 9)
   const addressDelegate = truncateMiddle(delegate.delegateInfo.delegateAddress, 11)
 
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
 
   /* BAD DELEGATE FRAME */
-  delegate.isGoodDelegate = false
 
   if(!delegate.isGoodDelegate) {
 
@@ -170,11 +169,11 @@ try {
               color: '#161B33',
               fontSize: '65px',
               textTransform: 'uppercase',
-              letterSpacing: '-0.030em',
+              letterSpacing: '-0.035em',
               width: '100%',
               maxWidth: '100%',
               boxSizing: 'border-box',
-              alignItems: 'flex-start',
+              alignItems: 'center',
               lineHeight: 0.8,
               padding: '10px',
               overflow: 'hidden', 
@@ -182,11 +181,10 @@ try {
               textAlign: 'center', 
               top: '8%',
               height: '30%',
-              lineClamp: 2,
               whiteSpace: 'wrap'
             }}
           >            
-          <div style={{display: 'flex', wordWrap: 'break-word', lineClamp: 2,  flexWrap: 'wrap', width: '100%',
+          <div style={{display: 'flex', wordWrap: 'break-word', flexWrap: 'wrap', width: '100%',
     maxWidth: '100%', margin: '0 10px', justifyContent: 'center',}}>Did <div style={{display: 'flex', color: '#E5383B'}}>{delegateUpperCase}</div> vote in the most recent proposal?</div>
           </div>
         </div>
@@ -227,7 +225,7 @@ try {
               color: '#161B33',
               fontSize: '65px',
               textTransform: 'uppercase',
-              letterSpacing: '-0.030em',
+              letterSpacing: '-0.035em',
               width: '100%',
               maxWidth: '100%',
               boxSizing: 'border-box',
