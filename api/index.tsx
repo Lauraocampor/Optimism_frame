@@ -49,6 +49,15 @@ function truncateMiddle (text: string, maxLength: number) : string{
   return text.slice(0, start) + '...' + text.slice(-end)
 }
 
+function truncateWord(str: string, maxLength: number) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  
+  return str.slice(0, maxLength) + '...';
+}
+
+
 app.frame('/delegatesStats', async (c) => {
  /* const {  frameData } = c;
  const { fid } = frameData || {} */
