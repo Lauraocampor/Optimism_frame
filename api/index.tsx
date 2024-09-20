@@ -311,7 +311,7 @@ app.frame('/socialRecommendation', async (c) => {
   }
 
   /* TEST FRAMES */
-  //delegates.length = 2
+  delegates.length = 1
 
   if (delegates.length === 0) {
     return c.res({
@@ -376,7 +376,7 @@ app.frame('/socialRecommendation', async (c) => {
             color: '#E5383B',
             height: 'auto'
           }}>                    
-            { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
+            { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
             <br/>
             {item.count}
           </div>
@@ -448,7 +448,7 @@ app.frame('/socialRecommendation', async (c) => {
                   color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                   height: 'auto'
                 }}>                    
-                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
+                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
                   <br/>
                   {item.count}
                 </div>
@@ -525,7 +525,7 @@ app.frame('/socialRecommendation', async (c) => {
                   color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                   height: 'auto',
                 }}>                    
-                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
+                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
                   <br/>
                   {item.count}
                 </div>
@@ -653,7 +653,7 @@ image: (
                 whiteSpace: 'nowrap',
                 height: 'auto', 
               }}>                    
-                { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
+                { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
               </div>
             ))
           }
