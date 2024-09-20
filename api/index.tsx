@@ -310,7 +310,8 @@ app.frame('/socialRecommendation', async (c) => {
     });
   }
 
-  delegates.length = 1
+  /* TEST FRAMES */
+  //delegates.length = 2
 
   if (delegates.length === 0) {
     return c.res({
@@ -375,7 +376,7 @@ app.frame('/socialRecommendation', async (c) => {
             color: '#E5383B',
             height: 'auto'
           }}>                    
-            { item.username ? truncateWord(item.username, 9): truncateMiddle(item.address, 11) }
+            { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
             <br/>
             {item.count}
           </div>
@@ -447,7 +448,7 @@ app.frame('/socialRecommendation', async (c) => {
                   color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                   height: 'auto'
                 }}>                    
-                  {truncateMiddle(item.address, 11)}
+                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
                   <br/>
                   {item.count}
                 </div>
@@ -524,7 +525,7 @@ app.frame('/socialRecommendation', async (c) => {
                   color: colIndex === 1 ? '#E5383B' : '#36A4B4',
                   height: 'auto',
                 }}>                    
-                  {truncateMiddle(item.address, 11)}
+                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
                   <br/>
                   {item.count}
                 </div>
@@ -652,7 +653,7 @@ image: (
                 whiteSpace: 'nowrap',
                 height: 'auto', 
               }}>                    
-                {truncateMiddle(item.address, 11)}
+                { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 15)}
               </div>
             ))
           }
