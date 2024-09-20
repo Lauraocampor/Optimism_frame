@@ -143,8 +143,8 @@ try {
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
 
-
-  delegate.isGoodDelegate = false
+  /* TEST BAD DELEGATE */
+  //delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
 
@@ -232,19 +232,18 @@ try {
               width: '100%',
               maxWidth: '100%',
               boxSizing: 'border-box',
-              alignItems: 'flex-start',
+              alignItems: 'center',
               lineHeight: 0.8,
               padding: '10px',
               overflow: 'hidden', 
               textOverflow: 'ellipsis',
               textAlign: 'center', 
-              top: '3%',
+              top: '8%',
               height: '30%',
-              lineClamp: 2,
               whiteSpace: 'wrap'
             }}
           >            
-          <div style={{display: 'flex', wordWrap: 'break-word', lineClamp: 2,  flexWrap: 'wrap', width: '100%',
+          <div style={{display: 'flex', wordWrap: 'break-word', flexWrap: 'wrap', width: '100%',
     maxWidth: '100%', margin: '0 10px', justifyContent: 'center',}}>Did <div style={{display: 'flex', color: '#E5383B'}}>{delegateUpperCase}</div> vote in the most recent proposal?</div>
           </div>
         </div>
