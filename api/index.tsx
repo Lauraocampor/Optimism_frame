@@ -153,8 +153,8 @@ app.frame('/delegatesStats', async (c) => {
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
 
-
-  delegate.isGoodDelegate = false
+  /* TEST BAD DELEGATE FRAME */
+  //delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
 
