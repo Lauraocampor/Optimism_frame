@@ -144,7 +144,7 @@ try {
   const delegateUpperCase= delegateData.toUpperCase()
 
   /* TEST BAD DELEGATE */
-  //delegate.isGoodDelegate = false
+  delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
 
