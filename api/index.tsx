@@ -32,6 +32,49 @@ export const app = new Frog({
   }
 })
 
+/* API CALL GET_STATS */
+export async function getStats(fid: number) : Promise<DelegatesResponseDTO>{
+    
+  const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_stats`)
+
+  delegateApiURL.searchParams.append('fid', fid.toString());
+
+  const response = await fetch(delegateApiURL, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+
+  if (!response.ok){
+      throw new Error(`Error get delegate info for fid ${fid}`)
+  }
+  let data : DelegatesResponseDTO = await response.json();
+  return data
+}
+
+/* API CALL GET_SUGGESTED_DELEGATES */
+export async function getSuggestedDelegates(fid: number): Promise<suggestionResponseDTO> {
+
+  const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_suggested_delegates`);
+
+  delegateApiURL.searchParams.append('fid', fid.toString());
+
+
+  const response = await fetch(delegateApiURL, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+
+  if (!response.ok){
+      throw new Error(`Error get delegate info for fid ${fid}`)
+  }
+  let data : suggestionResponseDTO = await response.json()
+  return data
+}
+
 app.frame('/', (c) => {
   return c.res({
     image: `/Frame_1_start_op.png`,
@@ -42,6 +85,7 @@ app.frame('/', (c) => {
   })
 })
 
+/* ADDRESS AND USERNAME FUNCTIONS */
 function truncateMiddle (text: string, maxLength: number) : string{
   if (text.length <= maxLength) return text
   const start = Math.ceil((maxLength - 3) / 2)
@@ -74,42 +118,8 @@ app.frame('/delegatesStats', async (c) => {
   })
 }
 
-let delegate: DelegatesResponseDTO;
+  const delegate = await getStats(fid);
 
-try {
-
-  const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_stats`);
-
-  if (fid === undefined) {
-    throw new Error('FID is undefined');
-  }
-
-  delegateApiURL.searchParams.append('fid', fid.toString());
-
-  const response = await fetch(delegateApiURL.toString(), {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  delegate = await response.json();
-
-} catch (e) {
-  console.error('Error fetching delegate data:', e);
-
-  return c.res({
-    image: `/Frame_6_error.png`,
-    imageAspectRatio: '1.91:1',
-    intents: [
-      <Button.Reset>Try again</Button.Reset>,
-    ],
-  });
-}
 
   /* NO VERIFIED ADDRESS FRAME */
 
@@ -143,7 +153,7 @@ try {
   const delegateData = userDelegate? userDelegate : addressDelegate
   const delegateUpperCase= delegateData.toUpperCase()
 
-  /* TEST BAD DELEGATE */
+
   delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
@@ -256,6 +266,7 @@ try {
 
 })
 
+/* BUTTON FUNCTIONS */
 function getOrdinalSuffix(index: number): string {
   const suffixes = ["th", "st", "nd", "rd"];
   const value = index % 100;
@@ -273,7 +284,7 @@ app.frame('/socialRecommendation', async (c) => {
   /*  const {  frameData } = c;
    const { fid } = frameData || {} */
   
-   const fid = 192336
+  const fid = 192336
   
   
     if (typeof fid !== 'number' || fid === null) {
@@ -283,31 +294,9 @@ app.frame('/socialRecommendation', async (c) => {
         intents: [<Button.Reset>Try again</Button.Reset>],
       });
     }
-    let delegates: suggestionResponseDTO 
   
-    try {
-      const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_suggested_delegates`);
-      delegateApiURL.searchParams.append('fid', fid.toString());
+  const delegates = await getSuggestedDelegates(fid);
   
-      const response = await fetch(delegateApiURL.toString(), {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      delegates = await response.json();
-  
-  } catch (error) {
-    console.error('Error fetching delegate data:', error);
-    return c.res({
-      image: `/Frame_6_error.png`,
-      imageAspectRatio: '1.91:1',
-      intents: [<Button.Reset>Try again</Button.Reset>],
-    });
-  }
 
   /* TEST FRAMES */
   //delegates.length = 2
@@ -556,31 +545,10 @@ app.frame('/randomRecommendation', async (c) => {
       intents: [<Button.Reset>Try again</Button.Reset>],
     });
   }
-  let delegates: suggestionResponseDTO 
 
-  try {
-    const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_suggested_delegates`);
-    delegateApiURL.searchParams.append('fid', fid.toString());
+  const delegates = await getSuggestedDelegates(fid);
 
-    const response = await fetch(delegateApiURL.toString(), {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    delegates = await response.json();
-
-} catch (error) {
-  console.error('Error fetching delegate data:', error);
-  return c.res({
-    image: `/Frame_6_error.png`,
-    imageAspectRatio: '1.91:1',
-    intents: [<Button.Reset>Try again</Button.Reset>],
-  });
-}
 if (delegates.length === 0) {
   return c.res({
     image: `/Frame_8_no_followers.png`,
