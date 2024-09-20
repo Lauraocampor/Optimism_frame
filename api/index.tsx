@@ -375,7 +375,7 @@ app.frame('/socialRecommendation', async (c) => {
             color: '#E5383B',
             height: 'auto'
           }}>                    
-            {truncateMiddle(item.address, 11)}
+            { item.username ? truncateWord(item.username, 9): truncateMiddle(item.address, 11) }
             <br/>
             {item.count}
           </div>
