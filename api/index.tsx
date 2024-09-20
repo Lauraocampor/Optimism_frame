@@ -310,7 +310,7 @@ app.frame('/socialRecommendation', async (c) => {
   }
 
   /* TEST FRAMES */
-  delegates.length = 2
+  //delegates.length = 2
 
   if (delegates.length === 0) {
     return c.res({
