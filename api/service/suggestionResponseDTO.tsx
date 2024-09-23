@@ -1,7 +1,7 @@
-export interface addressCount{
+export interface suggestedDelegates{
     address: string;
     count: number;
     username: string;
 }
 
-export type suggestionResponseDTO = addressCount[];
+export type suggestionResponseDTO = suggestedDelegates[];
