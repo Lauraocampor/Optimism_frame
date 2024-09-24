@@ -365,14 +365,87 @@ app.frame('/socialRecommendation', async (c) => {
   const delegates = previousState.delegates;
   
   /* TEST FRAMES */
-  //delegates.length = 2
+  delegates.length = 0
 
   if (delegates.length === 0) {
+    const delegates = previousState.delegatesRandom;
+    
+    const intents = getIntentsRandom(delegates);
+    intents.push(<Button.Reset>Reset</Button.Reset>);
+    
     return c.res({
-      image: `/Frame_8_no_followers.png`,
-      imageAspectRatio: '1.91:1',
-      intents: [<Button.Reset>Try again</Button.Reset>],
+    image: (  
+    <div
+      style={{
+        display: 'flex',
+        background: '#f6f6f6',
+        alignItems: 'center',
+        position: 'relative',
+      }}
+    > 
+      <img width="1200" height="630" alt="background" src={`/Frame_8_no_followers.png`} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          color: '#161B33',
+          fontSize: '65px',
+          textTransform: 'uppercase',
+          letterSpacing: '-0.030em',
+          width: '100%',
+          boxSizing: 'border-box',
+          alignItems: 'center',
+          lineHeight: 0.8,
+          padding: '0px',
+          overflow: 'hidden', 
+          textOverflow: 'ellipsis',
+          textAlign: 'center', 
+          top: '30%',
+          height: '80%',
+        }}>      
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row', 
+          flexWrap: 'wrap', 
+          width: '100%',
+          maxWidth: '100%',
+          justifyContent: 'center',
+        }}>
+          {[0, 1, 2].map(colIndex => (
+            <div key={colIndex} style={{
+              display: 'flex',
+              flexDirection: 'column', 
+              width: '30%', 
+              boxSizing: 'border-box',
+              margin: '0 20px', 
+            }}>
+              {delegates
+                .filter((_, index) => index % 3 === colIndex) 
+                .map((item, index) => (
+                  <div key={index} style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '5px 0',
+                    alignItems: 'center',
+                    textOverflow: 'ellipsis',
+                    color: colIndex === 1 ? '#E5383B' : '#36A4B4',
+                    whiteSpace: 'nowrap',
+                    height: 'auto', 
+                  }}>                    
+                    { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
+                  </div>
+                ))
+              }
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    ),
+    intents,
     });
+    
   }
   
   const intents = getIntentsSuggested(delegates);
@@ -613,13 +686,13 @@ if (typeof fid !== 'number' || fid === null) {
 
 const delegates = previousState.delegatesRandom;
 
-if (delegates.length === 0) {
+/* if (delegates.length === 0) {
   return c.res({
     image: `/Frame_8_no_followers.png`,
     imageAspectRatio: '1.91:1',
     intents: [<Button.Reset>Try again</Button.Reset>],
   });
-}
+} */
 
 const intents = getIntentsRandom(delegates);
 intents.push(<Button.Reset>Reset</Button.Reset>);
