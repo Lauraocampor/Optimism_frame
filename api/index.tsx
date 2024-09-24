@@ -16,7 +16,14 @@ import { randomDelegates, randomResponseDTO } from './service/randomResponseDTO.
 // runtime: 'edge',
 // }
 
-export const app = new Frog({
+type State = {
+  delegate: DelegatesResponseDTO,
+  delegates: suggestionResponseDTO,
+  delegatesRandom: randomDelegates[],
+  fid: number
+}
+
+export const app = new Frog<{ State: State }>({
   assetsPath: '/',
   basePath: '/api',
   hub: neynar({ apiKey: 'NEYNAR_FROG_FM' }),
@@ -30,6 +37,20 @@ export const app = new Frog({
         source: 'google',
       }
     ]
+  },
+  initialState: { 
+    delegate: {
+      hasVerifiedAddress: false,
+      hasDelegate: false,
+      isGoodDelegate: false,
+      delegateInfo: {
+        delegateAddress: '0x0000000000',
+        warpcast: ''
+      }
+    },
+    delegates: [],
+    delegatesRandom: [],
+    fid: 0
   }
 })
 
@@ -48,7 +69,7 @@ export async function getStats(fid: number) : Promise<DelegatesResponseDTO>{
   })
 
   if (!response.ok){
-      throw new Error(`Error get delegate info for fid ${fid}`)
+    console.log(`Error get delegate info for fid ${fid}`)
   }
   let data : DelegatesResponseDTO = await response.json();
   return data
@@ -61,7 +82,6 @@ export async function getSuggestedDelegates(fid: number): Promise<suggestionResp
 
   delegateApiURL.searchParams.append('fid', fid.toString());
 
-
   const response = await fetch(delegateApiURL, {
       method: 'GET',
       headers: {
@@ -70,7 +90,7 @@ export async function getSuggestedDelegates(fid: number): Promise<suggestionResp
   })
 
   if (!response.ok){
-      throw new Error(`Error get delegate info for fid ${fid}`)
+    console.log(`Error getSuggestedDelegates for fid ${fid}`)
   }
   let data : suggestionResponseDTO = await response.json()
   return data
@@ -83,7 +103,6 @@ export async function getRandomDelegates(fid: number): Promise<randomResponseDTO
 
   delegateApiURL.searchParams.append('fid', fid.toString());
 
-
   const response = await fetch(delegateApiURL, {
       method: 'GET',
       headers: {
@@ -92,13 +111,37 @@ export async function getRandomDelegates(fid: number): Promise<randomResponseDTO
   })
 
   if (!response.ok){
-      throw new Error(`Error get delegate info for fid ${fid}`)
+    console.log(`Error getRandomDelegates for fid ${fid}`)
   }
   let data : randomResponseDTO = await response.json()
   return data
 }
 
-app.frame('/', (c) => {
+app.frame('/', async (c) => {
+  const {  previousState } = c;
+  
+  //const { fid } = frameData || {}
+
+  const fid = 192336
+
+  previousState.fid = fid
+
+  getStats(fid).then((data) => {
+    previousState.delegate = data;
+  });
+  
+  if(previousState.delegates.length === 0){
+      getSuggestedDelegates(fid).then((data) => {
+      previousState.delegates = data;
+    });
+  }
+
+  if(previousState.delegatesRandom.length === 0){
+    getRandomDelegates(fid).then((data) => {
+      previousState.delegatesRandom = data;
+    });
+  }
+
   return c.res({
     image: `/Frame_1_start_op.png`,
     imageAspectRatio: '1.91:1',
@@ -126,34 +169,32 @@ function truncateWord(str: string, maxLength: number) {
 
 
 app.frame('/delegatesStats', async (c) => {
- /* const {  frameData } = c;
- const { fid } = frameData || {} */
+const {  previousState } = c;
 
- const fid = 192336
+ const fid = previousState.fid
 
  if (typeof fid !== 'number' || fid === null){
-  return c.res({
-    image: `/Frame_6_error.png`,
-    imageAspectRatio: '1.91:1',
-    intents: [
-      <Button.Reset>Try again</Button.Reset>,
-    ],
-  })
-}
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [
+        <Button.Reset>Try again</Button.Reset>,
+      ],
+    })
+  }
 
-  const delegate = await getStats(fid);
-
+  const delegate = previousState.delegate;
 
   /* NO VERIFIED ADDRESS FRAME */
 
   if (!delegate.hasVerifiedAddress){
-    return c.res({
-      image: `/Frame_4_not_verified.png`,
-      imageAspectRatio: '1.91:1',
-      intents: [
-          <Button.Reset>Try again</Button.Reset>,
-      ],
-  })
+      return c.res({
+        image: `/Frame_4_not_verified.png`,
+        imageAspectRatio: '1.91:1',
+        intents: [
+            <Button.Reset>Try again</Button.Reset>,
+        ],
+    })
   }
   
   /* NO DELEGATE FRAME */
@@ -180,9 +221,7 @@ app.frame('/delegatesStats', async (c) => {
   delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
-
   if(!delegate.isGoodDelegate) {
-
     return c.res({
       image: (
         <div style={{
@@ -311,23 +350,20 @@ function getIntentsRandom(delegates: randomDelegates[]) : FrameIntent[]{
 }
 
 app.frame('/socialRecommendation', async (c) => {
-  /*  const {  frameData } = c;
-   const { fid } = frameData || {} */
-  
-  const fid = 192336
-  
-  
-    if (typeof fid !== 'number' || fid === null) {
-      return c.res({
-        image: `/Frame_6_error.png`,
-        imageAspectRatio: '1.91:1',
-        intents: [<Button.Reset>Try again</Button.Reset>],
-      });
-    }
-  
-  const delegates = await getSuggestedDelegates(fid);
-  
+  const {  previousState } = c;
 
+  const fid = previousState.fid;  
+  
+  if (typeof fid !== 'number' || fid === null) {
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [<Button.Reset>Try again</Button.Reset>],
+    });
+  }
+  
+  const delegates = previousState.delegates;
+  
   /* TEST FRAMES */
   //delegates.length = 2
 
@@ -561,23 +597,21 @@ app.frame('/socialRecommendation', async (c) => {
 })
 
 
-app.frame('/randomRecommendation', async (c) => {
- /* const {  frameData } = c;
- const { fid } = frameData || {} */
+app.frame('/randomRecommendation', async (c) => {  
+const {  previousState } = c;
 
- const fid = 192336
+const fid = previousState.fid;
 
 
-  if (typeof fid !== 'number' || fid === null) {
-    return c.res({
-      image: `/Frame_6_error.png`,
-      imageAspectRatio: '1.91:1',
-      intents: [<Button.Reset>Try again</Button.Reset>],
-    });
-  }
+if (typeof fid !== 'number' || fid === null) {
+  return c.res({
+    image: `/Frame_6_error.png`,
+    imageAspectRatio: '1.91:1',
+    intents: [<Button.Reset>Try again</Button.Reset>],
+  });
+}
 
-  const delegates = await getRandomDelegates(fid);
-
+const delegates = previousState.delegatesRandom;
 
 if (delegates.length === 0) {
   return c.res({
