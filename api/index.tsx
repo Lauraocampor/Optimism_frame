@@ -119,10 +119,11 @@ export async function getRandomDelegates(fid: number): Promise<randomResponseDTO
 }
 
 app.frame('/', async (c) => {
-  const {  previousState } = c;
+  const {  previousState} = c;
   
   /*VERIFIED FID - REMEMBER TO ADD FRAMEDATA ON THE CONTEXT => const {  previousState, frameData } = c; */
   //const { fid } = frameData || {}
+  
   const fid = 192336
 
   if (typeof fid !== 'number' || fid === null){
@@ -212,10 +213,10 @@ const {  previousState } = c;
 
   if(!delegate.hasDelegate) {
     return c.res({
-      image: `/Frame_5_no_delegate.png`,
+      image: `/Frame_5_no delegate_explore.png`,
       imageAspectRatio: '1.91:1',
       intents: [
-        <Button action='/socialRecommendation'>People I follow</Button>,
+        <Button action='/socialRecommendation'>Social Graph</Button>,
         <Button action='/randomRecommendation'>Random</Button>,
         <Button.Reset>Reset</Button.Reset>,
       ],
@@ -229,7 +230,7 @@ const {  previousState } = c;
 
 
   /* TEST BAD DELEGATE FRAME */
-  //delegate.isGoodDelegate = false
+  delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
   if(!delegate.isGoodDelegate) {
