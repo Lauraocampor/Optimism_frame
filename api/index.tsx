@@ -11,6 +11,7 @@ import { DelegatesResponseDTO } from './service/delegatesResponseDTO.js';
 import { suggestedDelegates, suggestionResponseDTO } from './service/suggestionResponseDTO.js';
 import { randomDelegates, randomResponseDTO } from './service/randomResponseDTO.js';
 
+
 // Uncomment to use Edge Runtime.
 // export const config = {
 // runtime: 'edge',
@@ -120,9 +121,19 @@ export async function getRandomDelegates(fid: number): Promise<randomResponseDTO
 app.frame('/', async (c) => {
   const {  previousState } = c;
   
+  /*VERIFIED FID - REMEMBER TO ADD FRAMEDATA ON THE CONTEXT => const {  previousState, frameData } = c; */
   //const { fid } = frameData || {}
-
   const fid = 192336
+
+  if (typeof fid !== 'number' || fid === null){
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [
+        <Button.Reset>Try again</Button.Reset>,
+      ],
+    })
+  }
 
   previousState.fid = fid
 
@@ -171,7 +182,7 @@ function truncateWord(str: string, maxLength: number) {
 app.frame('/delegatesStats', async (c) => {
 const {  previousState } = c;
 
- const fid = previousState.fid
+/*  const fid = previousState.fid
 
  if (typeof fid !== 'number' || fid === null){
     return c.res({
@@ -181,7 +192,7 @@ const {  previousState } = c;
         <Button.Reset>Try again</Button.Reset>,
       ],
     })
-  }
+  } */
 
   const delegate = previousState.delegate;
 
@@ -214,16 +225,83 @@ const {  previousState } = c;
   const userDelegate = delegate.delegateInfo.warpcast
   const addressDelegate = truncateMiddle(delegate.delegateInfo.delegateAddress, 11)
 
-  const delegateData = userDelegate? userDelegate : addressDelegate
+  const delegateData = (userDelegate !== null && userDelegate !== '') ? userDelegate : addressDelegate;
+
 
   /* TEST BAD DELEGATE FRAME */
-  delegate.isGoodDelegate = false
+  //delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
   if(!delegate.isGoodDelegate) {
     return c.res({
         image: (
-        <div style={{
+          <div style={{
+              display: 'flex',
+              background: '#f6f6f6',
+              width: '100%',
+              height: '100%',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              position: 'relative',
+              overflow: 'hidden'
+          }}>
+              <img width="1200" height="630" alt="background" src={`/Frame_2.1_bad_delegate_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
+              
+              <div
+                  style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      position: 'absolute',
+                      color: '#161B33',
+                      fontSize: '75px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '-0.035em',
+                      width: '90%',
+                      padding: '10px',
+                      top: '6%',
+                      height: '30%',
+                      overflow: 'hidden',
+                      lineHeight: 0.6,
+                      textAlign: 'right',
+                      transform: 'translateX(-60px)'
+                  }}
+              >
+                  <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      width: '100%',
+                      flexWrap: 'wrap'
+                  }}>
+                      <div style={{ marginRight: '10px' }}>Did</div>
+                      <div style={{display: 'flex', color: '#E5383B', margin: '0 10px' }}>{delegateData}</div>
+                      <div style={{ marginLeft: '10px' }}>vote</div>
+                      <div style={{ marginLeft: '10px' }}>in</div>
+                      <div style={{ marginLeft: '10px' }}>the</div>
+                      <div style={{ marginLeft: '10px' }}>most</div>
+                      <div style={{ marginLeft: '10px' }}>recent</div>
+                      <div style={{ marginLeft: '10px' }}>proposal?</div>
+                  </div>
+              </div>
+          </div>
+      ),
+        intents: [
+          <Button action='/socialRecommendation'>Social Graph</Button>,
+          <Button action='/randomRecommendation'>Random</Button>,
+          <Button.Reset>Reset</Button.Reset>
+        ],
+      })
+  }
+
+
+  if (typeof userDelegate !== 'string' || userDelegate === null) {
+    throw new Error('Invalid type returned');
+  }
+
+  /* GOOD DELEGATE FRAME */
+    return c.res({
+      image: (
+          <div style={{
             display: 'flex',
             background: '#f6f6f6',
             width: '100%',
@@ -234,7 +312,7 @@ const {  previousState } = c;
             position: 'relative',
             overflow: 'hidden'
         }}>
-            <img width="1200" height="630" alt="background" src={`/Frame_2.1_bad_delegate_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
+            <img width="1200" height="630" alt="background" src={`/Frame_2_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
             
             <div
                 style={{
@@ -247,10 +325,10 @@ const {  previousState } = c;
                     letterSpacing: '-0.035em',
                     width: '90%',
                     padding: '10px',
-                    top: '8%',
+                    top: '6%',
                     height: '30%',
                     overflow: 'hidden',
-                    lineHeight: 0.8,
+                    lineHeight: 0.6,
                     textAlign: 'right',
                     transform: 'translateX(-60px)'
                 }}
@@ -272,72 +350,6 @@ const {  previousState } = c;
                 </div>
             </div>
         </div>
-      ),
-        intents: [
-          <Button action='/socialRecommendation'>Social Graph</Button>,
-          <Button action='/randomRecommendation'>Random</Button>,
-          <Button.Reset>Reset</Button.Reset>
-        ],
-      })
-  }
-
-
-  if (typeof userDelegate !== 'string' || userDelegate === null) {
-    throw new Error('Invalid type returned');
-  }
-
-  /* GOOD DELEGATE FRAME */
-    return c.res({
-      image: (
-        <div style={{
-          display: 'flex',
-          background: '#f6f6f6',
-          width: '100%',
-          height: '100%',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          alignItems: 'flex-end',
-          position: 'relative',
-          overflow: 'hidden'
-      }}>
-          <img width="1200" height="630" alt="background" src={`/Frame_2_stats_dynamic.png`} style={{position: 'absolute', width: '100%', height: '100%', objectFit: 'cover'}} />
-          
-          <div
-              style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  position: 'absolute',
-                  color: '#161B33',
-                  fontSize: '75px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '-0.035em',
-                  width: '90%',
-                  padding: '10px',
-                  top: '8%',
-                  height: '30%',
-                  overflow: 'hidden',
-                  lineHeight: 0.8,
-                  textAlign: 'right',
-                  transform: 'translateX(-60px)'
-              }}
-          >
-              <div style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  width: '100%',
-                  flexWrap: 'wrap'
-              }}>
-                  <div style={{ marginRight: '10px' }}>Did</div>
-                  <div style={{display: 'flex', color: '#E5383B', margin: '0 10px' }}>{delegateData}</div>
-                  <div style={{ marginLeft: '10px' }}>vote</div>
-                  <div style={{ marginLeft: '10px' }}>in</div>
-                  <div style={{ marginLeft: '10px' }}>the</div>
-                  <div style={{ marginLeft: '10px' }}>most</div>
-                  <div style={{ marginLeft: '10px' }}>recent</div>
-                  <div style={{ marginLeft: '10px' }}>proposal?</div>
-              </div>
-          </div>
-      </div>
       ),
         intents: [
           <Button.Link href='https://warpcast.com/~/compose?text=Hello%20world!&embeds[]=https://test-frame-nu.vercel.app/api/delegatesStats'>Share</Button.Link>,
@@ -371,7 +383,7 @@ function getIntentsRandom(delegates: randomDelegates[]) : FrameIntent[]{
 app.frame('/socialRecommendation', async (c) => {
   const {  previousState } = c;
 
-  const fid = previousState.fid;  
+/*   const fid = previousState.fid;  
   
   if (typeof fid !== 'number' || fid === null) {
     return c.res({
@@ -379,7 +391,7 @@ app.frame('/socialRecommendation', async (c) => {
       imageAspectRatio: '1.91:1',
       intents: [<Button.Reset>Try again</Button.Reset>],
     });
-  }
+  } */
   
   const delegates = previousState.delegates;
   
@@ -692,7 +704,7 @@ app.frame('/socialRecommendation', async (c) => {
 app.frame('/randomRecommendation', async (c) => {  
 const {  previousState } = c;
 
-const fid = previousState.fid;
+/* const fid = previousState.fid;
 
 
 if (typeof fid !== 'number' || fid === null) {
@@ -701,17 +713,9 @@ if (typeof fid !== 'number' || fid === null) {
     imageAspectRatio: '1.91:1',
     intents: [<Button.Reset>Try again</Button.Reset>],
   });
-}
+} */
 
 const delegates = previousState.delegatesRandom;
-
-/* if (delegates.length === 0) {
-  return c.res({
-    image: `/Frame_8_no_followers.png`,
-    imageAspectRatio: '1.91:1',
-    intents: [<Button.Reset>Try again</Button.Reset>],
-  });
-} */
 
 const intents = getIntentsRandom(delegates);
 intents.push(<Button.Reset>Reset</Button.Reset>);
