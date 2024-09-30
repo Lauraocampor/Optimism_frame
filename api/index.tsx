@@ -146,14 +146,14 @@ function truncateWord(str: string, maxLength: number) {
 
 
 app.frame('/delegatesStats', async (c) => {
-  const {  previousState } = c;
+  const {  previousState, frameData } = c;
 
   /*VERIFIED FID - REMEMBER TO ADD FRAMEDATA ON THE CONTEXT => const {  previousState, frameData } = c; */
-  //const { fid } = frameData || {}
+  const { fid } = frameData || {}
 
 
 //TODO MOCKED
-const fid = 192336
+//const fid = 192336
 
 if (typeof fid !== 'number' || fid === null){
   return c.res({
@@ -214,7 +214,7 @@ if(previousState.delegatesRandom.length === 0){
 
 
   /* TODO MOCKED DELEGATE FRAME */
-  delegate.isGoodDelegate = false
+  //delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
   if(!delegate.isGoodDelegate) {
