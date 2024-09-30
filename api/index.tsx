@@ -384,7 +384,7 @@ app.frame('/socialRecommendation', async (c) => {
   /* TODO MOCKED */
   //delegates.length = 0
 
-  if (delegates.length === 0) {
+  if (delegates.length === 0 && delegatesRandom.length !== 0) {
     const delegates = previousState.delegatesRandom;
     
     const intents = getIntentsRandom(delegates);
