@@ -151,6 +151,8 @@ app.frame('/delegatesStats', async (c) => {
   /*VERIFIED FID - REMEMBER TO ADD FRAMEDATA ON THE CONTEXT => const {  previousState, frameData } = c; */
   //const { fid } = frameData || {}
 
+
+//TODO MOCKED
 const fid = 192336
 
 if (typeof fid !== 'number' || fid === null){
@@ -211,7 +213,7 @@ if(previousState.delegatesRandom.length === 0){
   const delegateData = (userDelegate !== null && userDelegate !== '') ? userDelegate : addressDelegate;
 
 
-  /* TEST BAD DELEGATE FRAME */
+  /* TODO MOCKED DELEGATE FRAME */
   delegate.isGoodDelegate = false
 
   /* BAD DELEGATE FRAME */
@@ -379,7 +381,7 @@ app.frame('/socialRecommendation', async (c) => {
     })
   }
   
-  /* TEST FRAMES */
+  /* TODO MOCKED */
   //delegates.length = 0
 
   if (delegates.length === 0) {
