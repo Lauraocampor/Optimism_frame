@@ -119,12 +119,12 @@ export async function getRandomDelegates(fid: number): Promise<randomResponseDTO
 }
 
 app.frame('/', async (c) => {
-  const {  previousState} = c;
+  const {  previousState, frameData } = c;
   
   /*VERIFIED FID - REMEMBER TO ADD FRAMEDATA ON THE CONTEXT => const {  previousState, frameData } = c; */
-  //const { fid } = frameData || {}
+  const { fid } = frameData || {}
   
-  const fid = 192336
+  // const fid = 192336 TODO MOCKED
 
   if (typeof fid !== 'number' || fid === null){
     return c.res({
@@ -230,7 +230,7 @@ const {  previousState } = c;
 
 
   /* TEST BAD DELEGATE FRAME */
-  delegate.isGoodDelegate = false
+  // delegate.isGoodDelegate = false TODO MOCKED
 
   /* BAD DELEGATE FRAME */
   if(!delegate.isGoodDelegate) {
