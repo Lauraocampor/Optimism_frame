@@ -263,9 +263,10 @@ if(previousState.delegatesRandom.length === 0){
                       <div style={{ marginLeft: '10px' }}>vote</div>
                       <div style={{ marginLeft: '10px' }}>in</div>
                       <div style={{ marginLeft: '10px' }}>the</div>
+                      <div style={{ marginLeft: '10px' }}>ten</div>
                       <div style={{ marginLeft: '10px' }}>most</div>
                       <div style={{ marginLeft: '10px' }}>recent</div>
-                      <div style={{ marginLeft: '10px' }}>proposal?</div>
+                      <div style={{ marginLeft: '10px' }}>proposals?</div>
                   </div>
               </div>
           </div>
@@ -329,9 +330,10 @@ if(previousState.delegatesRandom.length === 0){
                     <div style={{ marginLeft: '10px' }}>vote</div>
                     <div style={{ marginLeft: '10px' }}>in</div>
                     <div style={{ marginLeft: '10px' }}>the</div>
+                    <div style={{ marginLeft: '10px' }}>ten</div>
                     <div style={{ marginLeft: '10px' }}>most</div>
                     <div style={{ marginLeft: '10px' }}>recent</div>
-                    <div style={{ marginLeft: '10px' }}>proposal?</div>
+                    <div style={{ marginLeft: '10px' }}>proposals?</div>
                 </div>
             </div>
         </div>
