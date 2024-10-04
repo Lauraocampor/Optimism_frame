@@ -263,10 +263,9 @@ if(previousState.delegatesRandom.length === 0){
                       <div style={{ marginLeft: '10px' }}>vote</div>
                       <div style={{ marginLeft: '10px' }}>in</div>
                       <div style={{ marginLeft: '10px' }}>the</div>
-                      <div style={{ marginLeft: '10px' }}>ten</div>
                       <div style={{ marginLeft: '10px' }}>most</div>
                       <div style={{ marginLeft: '10px' }}>recent</div>
-                      <div style={{ marginLeft: '10px' }}>proposals?</div>
+                      <div style={{ marginLeft: '10px' }}>proposal?</div>
                   </div>
               </div>
           </div>
@@ -330,10 +329,9 @@ if(previousState.delegatesRandom.length === 0){
                     <div style={{ marginLeft: '10px' }}>vote</div>
                     <div style={{ marginLeft: '10px' }}>in</div>
                     <div style={{ marginLeft: '10px' }}>the</div>
-                    <div style={{ marginLeft: '10px' }}>ten</div>
                     <div style={{ marginLeft: '10px' }}>most</div>
                     <div style={{ marginLeft: '10px' }}>recent</div>
-                    <div style={{ marginLeft: '10px' }}>proposals?</div>
+                    <div style={{ marginLeft: '10px' }}>proposal?</div>
                 </div>
             </div>
         </div>
@@ -387,9 +385,8 @@ app.frame('/socialRecommendation', async (c) => {
   //delegates.length = 0
 
   if (delegates.length === 0 && delegatesRandom.length !== 0) {
-    const delegates = previousState.delegatesRandom;
     
-    const intents = getIntentsRandom(delegates);
+    const intents = getIntentsRandom(delegatesRandom);
     intents.push(<Button.Reset>Reset</Button.Reset>);
     
     return c.res({
@@ -439,7 +436,7 @@ app.frame('/socialRecommendation', async (c) => {
               boxSizing: 'border-box',
               margin: '0 20px', 
             }}>
-              {delegates
+              {delegatesRandom
                 .filter((_, index) => index % 3 === colIndex) 
                 .map((item, index) => (
                   <div key={index} style={{
