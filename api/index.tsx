@@ -17,19 +17,12 @@ import { randomDelegates, randomResponseDTO } from './service/randomResponseDTO.
 // runtime: 'edge',
 // }
 
-type State = {
-  delegate: DelegatesResponseDTO,
-  delegates: suggestionResponseDTO,
-  delegatesRandom: randomDelegates[],
-  fid: number
-}
-
-export const app = new Frog<{ State: State }>({
+export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
   hub: neynar({ apiKey: 'NEYNAR_FROG_FM' }),
   title: 'Delegates Frame',
-/*   verify: 'silent', */
+  verify: 'silent',
   imageOptions: {
     fonts: [
       {
@@ -38,20 +31,6 @@ export const app = new Frog<{ State: State }>({
         source: 'google',
       }
     ]
-  },
-  initialState: { 
-    delegate: {
-      hasVerifiedAddress: false,
-      hasDelegate: false,
-      isGoodDelegate: false,
-      delegateInfo: {
-        delegateAddress: '0x0000000000',
-        warpcast: ''
-      }
-    },
-    delegates: [],
-    delegatesRandom: [],
-    fid: 0
   }
 })
 
@@ -98,11 +77,9 @@ export async function getSuggestedDelegates(fid: number): Promise<suggestionResp
 }
 
 /* API CALL GET_RANDOM_DELEGATES */
-export async function getRandomDelegates(fid: number): Promise<randomResponseDTO> {
+export async function getRandomDelegates(): Promise<randomResponseDTO> {
 
   const delegateApiURL = new URL(`${process.env.DELEGATE_API_URL}/get_random_delegates`);
-
-  delegateApiURL.searchParams.append('fid', fid.toString());
 
   const response = await fetch(delegateApiURL, {
       method: 'GET',
@@ -112,7 +89,7 @@ export async function getRandomDelegates(fid: number): Promise<randomResponseDTO
   })
 
   if (!response.ok){
-    console.log(`Error getRandomDelegates for fid ${fid}`)
+    console.log(`Error getRandomDelegates`)
   }
   let data : randomResponseDTO = await response.json()
   return data
@@ -146,40 +123,23 @@ function truncateWord(str: string, maxLength: number) {
 
 
 app.frame('/delegatesStats', async (c) => {
-  const {  previousState, frameData } = c;
-
-  /*VERIFIED FID - REMEMBER TO ADD FRAMEDATA ON THE CONTEXT => const {  previousState, frameData } = c; */
+  const { frameData } = c;
   const { fid } = frameData || {}
-
 
 //TODO MOCKED
 //const fid = 192336
 
-if (typeof fid !== 'number' || fid === null){
-  return c.res({
-    image: `/Frame_6_error.png`,
-    imageAspectRatio: '1.91:1',
-    intents: [
-      <Button.Reset>Try again</Button.Reset>,
-    ],
-  })
-}
+  if (typeof fid !== 'number' || fid === null ){
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [
+        <Button.Reset>Try again</Button.Reset>,
+      ],
+    })
+  }
 
-previousState.fid = fid
-
-const delegate = await getStats(fid);
-
-if(previousState.delegates.length === 0){
-    getSuggestedDelegates(fid).then((data) => {
-    previousState.delegates = data;
-  });
-}
-
-if(previousState.delegatesRandom.length === 0){
-  getRandomDelegates(fid).then((data) => {
-    previousState.delegatesRandom = data;
-  });
-}
+  const delegate = await getStats(fid);
 
   /* NO VERIFIED ADDRESS FRAME */
 
@@ -368,10 +328,25 @@ function getIntentsRandom(delegates: randomDelegates[]) : FrameIntent[]{
 }
 
 app.frame('/socialRecommendation', async (c) => {
-  const {  previousState } = c;
-  
-  const delegates = previousState.delegates;
-  const delegatesRandom = previousState.delegatesRandom;
+  const { frameData } = c;
+  const { fid } = frameData || {}
+
+
+//TODO MOCKED
+//const fid = 192336
+
+  if (typeof fid !== 'number' || fid === null){
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [
+        <Button.Reset>Try again</Button.Reset>,
+      ],
+    })
+  }
+
+  const delegates = await getSuggestedDelegates(fid);
+  const delegatesRandom = await getRandomDelegates();
 
   if (delegates.length === 0 && delegatesRandom.length === 0){
     return c.res({
@@ -383,7 +358,7 @@ app.frame('/socialRecommendation', async (c) => {
     })
   }
   
-  /* TODO MOCKED */
+  /* TODO MOCKED DELEGATES */
   //delegates.length = 0
 
   if (delegates.length === 0 && delegatesRandom.length !== 0) {
@@ -689,95 +664,94 @@ app.frame('/socialRecommendation', async (c) => {
 
 
 app.frame('/randomRecommendation', async (c) => {  
-const {  previousState } = c;
 
-const delegates = previousState.delegatesRandom;
+  const delegates = await getRandomDelegates();
 
-if (delegates.length === 0){
+  if (delegates.length === 0){
+    return c.res({
+      image: `/Frame_6_error.png`,
+      imageAspectRatio: '1.91:1',
+      intents: [
+        <Button.Reset>Try again</Button.Reset>,
+      ],
+    })
+  }
+
+  const intents = getIntentsRandom(delegates);
+  intents.push(<Button.Reset>Reset</Button.Reset>);
+
   return c.res({
-    image: `/Frame_6_error.png`,
-    imageAspectRatio: '1.91:1',
-    intents: [
-      <Button.Reset>Try again</Button.Reset>,
-    ],
-  })
-}
-
-const intents = getIntentsRandom(delegates);
-intents.push(<Button.Reset>Reset</Button.Reset>);
-
-return c.res({
-image: (  
-<div
-  style={{
-    display: 'flex',
-    background: '#f6f6f6',
-    alignItems: 'center',
-    position: 'relative',
-  }}
-> 
-  <img width="1200" height="630" alt="background" src={`/Frame_7_random_delegates.png`} />
+  image: (  
   <div
     style={{
       display: 'flex',
-      flexDirection: 'column',
-      position: 'absolute',
-      color: '#161B33',
-      fontSize: '65px',
-      textTransform: 'uppercase',
-      letterSpacing: '-0.030em',
-      width: '100%',
-      boxSizing: 'border-box',
+      background: '#f6f6f6',
       alignItems: 'center',
-      lineHeight: 0.8,
-      padding: '0px',
-      overflow: 'hidden', 
-      textOverflow: 'ellipsis',
-      textAlign: 'center', 
-      top: '30%',
-      height: '80%',
-    }}>      
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row', 
-      flexWrap: 'wrap', 
-      width: '100%',
-      maxWidth: '100%',
-      justifyContent: 'center',
-    }}>
-      {[0, 1, 2].map(colIndex => (
-        <div key={colIndex} style={{
-          display: 'flex',
-          flexDirection: 'column', 
-          width: '30%', 
-          boxSizing: 'border-box',
-          margin: '0 20px', 
-        }}>
-          {delegates
-            .filter((_, index) => index % 3 === colIndex) 
-            .map((item, index) => (
-              <div key={index} style={{
-                display: 'flex',
-                flexDirection: 'column',
-                margin: '5px 0',
-                alignItems: 'center',
-                textOverflow: 'ellipsis',
-                color: colIndex === 1 ? '#E5383B' : '#36A4B4',
-                whiteSpace: 'nowrap',
-                height: 'auto', 
-              }}>                    
-                { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
-              </div>
-            ))
-          }
-        </div>
-      ))}
+      position: 'relative',
+    }}
+  > 
+    <img width="1200" height="630" alt="background" src={`/Frame_7_random_delegates.png`} />
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        color: '#161B33',
+        fontSize: '65px',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.030em',
+        width: '100%',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        lineHeight: 0.8,
+        padding: '0px',
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis',
+        textAlign: 'center', 
+        top: '30%',
+        height: '80%',
+      }}>      
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        width: '100%',
+        maxWidth: '100%',
+        justifyContent: 'center',
+      }}>
+        {[0, 1, 2].map(colIndex => (
+          <div key={colIndex} style={{
+            display: 'flex',
+            flexDirection: 'column', 
+            width: '30%', 
+            boxSizing: 'border-box',
+            margin: '0 20px', 
+          }}>
+            {delegates
+              .filter((_, index) => index % 3 === colIndex) 
+              .map((item, index) => (
+                <div key={index} style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  margin: '5px 0',
+                  alignItems: 'center',
+                  textOverflow: 'ellipsis',
+                  color: colIndex === 1 ? '#E5383B' : '#36A4B4',
+                  whiteSpace: 'nowrap',
+                  height: 'auto', 
+                }}>                    
+                  { item.username === 'no_farcaster_name' ? truncateMiddle(item.address, 11) :  truncateWord(item.username, 12)}
+                </div>
+              ))
+            }
+          </div>
+        ))}
+      </div>
     </div>
   </div>
-</div>
-),
-intents,
-});
+  ),
+  intents,
+  });
 
 })
 
