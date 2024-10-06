@@ -123,11 +123,11 @@ function truncateWord(str: string, maxLength: number) {
 
 
 app.frame('/delegatesStats', async (c) => {
-  const { frameData } = c;
-  const { fid } = frameData || {}
+/*   const { frameData } = c;
+  const { fid } = frameData || {} */
 
 //TODO MOCKED
-//const fid = 192336
+const fid = 192336
 
   if (typeof fid !== 'number' || fid === null ){
     return c.res({
@@ -244,6 +244,8 @@ app.frame('/delegatesStats', async (c) => {
     throw new Error('Invalid type returned');
   }
 
+  const vercelLink = 'https://optimism-frame.vercel.app/api'
+
   /* GOOD DELEGATE FRAME */
     return c.res({
       image: (
@@ -299,7 +301,7 @@ app.frame('/delegatesStats', async (c) => {
         </div>
       ),
         intents: [
-          <Button.Link href='https://warpcast.com/~/compose?text=Hello%20world!&embeds[]=https://test-frame-nu.vercel.app/api/delegatesStats'>Share</Button.Link>,
+          <Button.Link href={`https://warpcast.com/~/compose?text=Most%20Farcaster%20users%20haven%E2%80%99t%20chosen%20an%20Optimism%20delegate%20yet%2C%20and%20over%20half%20of%20users%20have%20an%20inactive%20delegate.%20Check%20yours%20now!%20%F0%9F%94%B4%E2%9C%A8&embeds[]=${vercelLink}`}>Share</Button.Link>,
           <Button.Reset>Reset</Button.Reset>
         ],
       })
