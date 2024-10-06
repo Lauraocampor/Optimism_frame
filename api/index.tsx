@@ -97,7 +97,7 @@ export async function getRandomDelegates(): Promise<randomResponseDTO> {
 
 app.frame('/', async (c) => {
   return c.res({
-    image: `/Frame_1_start_op.png`,
+    image: `/Frame_1_start_NEW.jpg`,
     imageAspectRatio: '1.91:1',
     intents: [
       <Button action="/delegatesStats">View Stats</Button>
